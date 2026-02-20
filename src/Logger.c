@@ -183,6 +183,47 @@ void Logger_IOWarn2(cc_result res, const char* action, const struct cc_filepath_
 
 
 /*########################################################################################################################*
+*-----------------------------------------------------CPU registers-------------------------------------------------------*
+*#########################################################################################################################*/
+#if defined CC_BUILD_WIN
+	#include "win32/Plat_Win32.inc"
+#elif defined CC_BUILD_DARWIN
+	#include "posix/Plat_Darwin.inc"
+#elif defined CC_BUILD_ANDROID
+	#include "posix/Plat_Android.inc"
+#elif defined CC_BUILD_LINUX
+	#include "posix/Plat_Linux.inc"
+#elif defined CC_BUILD_SOLARIS
+	#include "posix/Plat_Solaris.inc"
+#elif defined CC_BUILD_NETBSD
+	#include "posix/Plat_NetBSD.inc"
+#elif defined CC_BUILD_FREEBSD
+	#include "posix/Plat_FreeBSD.inc"
+#elif defined CC_BUILD_OPENBSD
+	#include "posix/Plat_OpenBSD.inc"
+#elif defined CC_BUILD_HAIKU
+	#include "posix/Plat_Haiku.inc"
+#elif defined CC_BUILD_SERENITY
+	#include "posix/Plat_SerenityOS.inc"
+#elif defined CC_BUILD_IRIX
+	#include "posix/Plat_IRIX.inc"
+#else
+void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
+	/* Register dumping not implemented */
+}
+#endif
+
+static void DumpRegisters(void* ctx) {
+	cc_string str; char strBuffer[768];
+	String_InitArray(str, strBuffer);
+
+	String_AppendConst(&str, "-- registers --" _NL);
+	CrashHandler_DumpRegisters(ctx, &str);
+	Logger_Log(&str);
+}
+
+
+/*########################################################################################################################*
 *------------------------------------------------------Frame dumping------------------------------------------------------*
 *#########################################################################################################################*/
 static void PrintFrame(cc_string* str, cc_uintptr addr, 
@@ -462,142 +503,6 @@ void Logger_Backtrace(cc_string* trace, void* ctx) {
 #else
 void Logger_Backtrace(cc_string* trace, void* ctx) { }
 #endif
-
-
-/*########################################################################################################################*
-*-----------------------------------------------------CPU registers-------------------------------------------------------*
-*#########################################################################################################################*/
-/* Unfortunately, operating systems vary wildly in how they name and access registers for dumping */
-/* So this is the simplest way to avoid duplicating code on each platform */
-#define Dump_X86() \
-String_Format3(str, "eax=%x ebx=%x ecx=%x" _NL, REG_GET(ax,AX), REG_GET(bx,BX), REG_GET(cx,CX));\
-String_Format3(str, "edx=%x esi=%x edi=%x" _NL, REG_GET(dx,DX), REG_GET(si,SI), REG_GET(di,DI));\
-String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, REG_GET(ip,IP), REG_GET(bp,BP), REG_GET(sp,SP));
-
-#define Dump_X64() \
-String_Format3(str, "rax=%x rbx=%x rcx=%x" _NL, REG_GET(ax,AX), REG_GET(bx,BX), REG_GET(cx,CX));\
-String_Format3(str, "rdx=%x rsi=%x rdi=%x" _NL, REG_GET(dx,DX), REG_GET(si,SI), REG_GET(di,DI));\
-String_Format3(str, "rip=%x rbp=%x rsp=%x" _NL, REG_GET(ip,IP), REG_GET(bp,BP), REG_GET(sp,SP));\
-String_Format3(str, "r8 =%x r9 =%x r10=%x" _NL, REG_GET(8,8),   REG_GET(9,9),   REG_GET(10,10));\
-String_Format3(str, "r11=%x r12=%x r13=%x" _NL, REG_GET(11,11), REG_GET(12,12), REG_GET(13,13));\
-String_Format2(str, "r14=%x r15=%x" _NL,        REG_GET(14,14), REG_GET(15,15));
-
-#define Dump_PPC() \
-String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(15)); \
-String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, REG_GNUM(16), REG_GNUM(17), REG_GNUM(18), REG_GNUM(19)); \
-String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, REG_GNUM(20), REG_GNUM(21), REG_GNUM(22), REG_GNUM(23)); \
-String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, REG_GNUM(24), REG_GNUM(25), REG_GNUM(26), REG_GNUM(27)); \
-String_Format4(str, "r28=%x r29=%x r30=%x r31=%x" _NL, REG_GNUM(28), REG_GNUM(29), REG_GNUM(30), REG_GNUM(31)); \
-String_Format3(str, "pc =%x lr =%x ctr=%x" _NL,  REG_GET_PC(), REG_GET_LR(), REG_GET_CTR());
-
-#define Dump_ARM32() \
-String_Format3(str, "r0 =%x r1 =%x r2 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2));\
-String_Format3(str, "r3 =%x r4 =%x r5 =%x" _NL, REG_GNUM(3),  REG_GNUM(4),  REG_GNUM(5));\
-String_Format3(str, "r6 =%x r7 =%x r8 =%x" _NL, REG_GNUM(6),  REG_GNUM(7),  REG_GNUM(8));\
-String_Format3(str, "r9 =%x r10=%x fp =%x" _NL, REG_GNUM(9),  REG_GNUM(10), REG_GET_FP());\
-String_Format3(str, "ip =%x sp =%x lr =%x" _NL, REG_GET_IP(), REG_GET_SP(), REG_GET_LR());\
-String_Format1(str, "pc =%x"               _NL, REG_GET_PC());
-
-#define Dump_ARM64() \
-String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(15)); \
-String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, REG_GNUM(16), REG_GNUM(17), REG_GNUM(18), REG_GNUM(19)); \
-String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, REG_GNUM(20), REG_GNUM(21), REG_GNUM(22), REG_GNUM(23)); \
-String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, REG_GNUM(24), REG_GNUM(25), REG_GNUM(26), REG_GNUM(27)); \
-String_Format4(str, "r28=%x fp =%x lr =%x sp =%x" _NL, REG_GNUM(28), REG_GET_FP(), REG_GET_LR(), REG_GET_SP()); \
-String_Format1(str, "pc =%x" _NL,                      REG_GET_PC());
-
-#define Dump_Alpha() \
-String_Format4(str, "v0 =%x t0 =%x t1 =%x t2 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "t3 =%x t4 =%x t5 =%x t6 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "t7 =%x s0 =%x s1 =%x s2 =%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "s3 =%x s4 =%x s5 =%x a0 =%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(16)); \
-String_Format4(str, "a1 =%x a2 =%x a3 =%x a4 =%x" _NL, REG_GNUM(17), REG_GNUM(18), REG_GNUM(19), REG_GNUM(20)); \
-String_Format4(str, "a5 =%x t8 =%x t9 =%x t10=%x" _NL, REG_GNUM(21), REG_GNUM(22), REG_GNUM(23), REG_GNUM(24)); \
-String_Format4(str, "t11=%x ra =%x pv =%x at =%x" _NL, REG_GNUM(25), REG_GNUM(26), REG_GNUM(27), REG_GNUM(28)); \
-String_Format4(str, "gp =%x fp =%x sp =%x pc =%x" _NL, REG_GNUM(29), REG_GET_FP(), REG_GET_SP(), REG_GET_PC());
-
-#define Dump_SPARC() \
-String_Format4(str, "o0=%x o1=%x o2=%x o3=%x" _NL, REG_GET(o0,O0), REG_GET(o1,O1), REG_GET(o2,O2), REG_GET(o3,O3)); \
-String_Format4(str, "o4=%x o5=%x o6=%x o7=%x" _NL, REG_GET(o4,O4), REG_GET(o5,O5), REG_GET(o6,O6), REG_GET(o7,O7)); \
-String_Format4(str, "g1=%x g2=%x g3=%x g4=%x" _NL, REG_GET(g1,G1), REG_GET(g2,G2), REG_GET(g3,G3), REG_GET(g4,G4)); \
-String_Format4(str, "g5=%x g6=%x g7=%x y =%x" _NL, REG_GET(g5,G5), REG_GET(g6,G6), REG_GET(g7,G7), REG_GET( y, Y)); \
-String_Format2(str, "pc=%x nc=%x" _NL,             REG_GET(pc,PC), REG_GET(npc,nPC));
-
-#define Dump_RISCV() \
-String_Format4(str, "pc =%x r1 =%x r2 =%x r3 =%x" _NL, REG_GET_PC(), REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(15)); \
-String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, REG_GNUM(16), REG_GNUM(17), REG_GNUM(18), REG_GNUM(19)); \
-String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, REG_GNUM(20), REG_GNUM(21), REG_GNUM(22), REG_GNUM(23)); \
-String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, REG_GNUM(24), REG_GNUM(25), REG_GNUM(26), REG_GNUM(27)); \
-String_Format4(str, "r28=%x r29=%x r30=%x r31=%x" _NL, REG_GNUM(28), REG_GNUM(29), REG_GNUM(30), REG_GNUM(31));
-
-#define Dump_MIPS() \
-String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(15)); \
-String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, REG_GNUM(16), REG_GNUM(17), REG_GNUM(18), REG_GNUM(19)); \
-String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, REG_GNUM(20), REG_GNUM(21), REG_GNUM(22), REG_GNUM(23)); \
-String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, REG_GNUM(24), REG_GNUM(25), REG_GNUM(26), REG_GNUM(27)); \
-String_Format4(str, "r28=%x sp =%x fp =%x ra =%x" _NL, REG_GNUM(28), REG_GNUM(29), REG_GNUM(30), REG_GNUM(31)); \
-String_Format3(str, "pc =%x lo =%x hi =%x" _NL,        REG_GET_PC(), REG_GET_LO(), REG_GET_HI());
-
-#define Dump_SH() \
-String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, REG_GNUM(0),  REG_GNUM(1),  REG_GNUM(2),  REG_GNUM(3)); \
-String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, REG_GNUM(4),  REG_GNUM(5),  REG_GNUM(6),  REG_GNUM(7)); \
-String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, REG_GNUM(8),  REG_GNUM(9),  REG_GNUM(10), REG_GNUM(11)); \
-String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, REG_GNUM(12), REG_GNUM(13), REG_GNUM(14), REG_GNUM(15)); \
-String_Format3(str, "mal=%x mah=%x gbr=%x"        _NL, REG_GET_MACL(), REG_GET_MACH(), REG_GET_GBR()); \
-String_Format2(str, "pc =%x ra =%x"               _NL, REG_GET_PC(), REG_GET_RA());
-
-#define Dump_E2K() \
-String_Format4(str, "ps =%x pcs=%x sbr=%x usd=%x" _NL, REG_GET_PSP(), REG_GET_PCSP(), REG_GET_SBR(), REG_GET_USD()); \
-String_Format1(str, "ip =%x"                      _NL, REG_GET_IP());
-
-#if defined CC_BUILD_WIN
-	#include "win32/Plat_Win32.inc"
-#elif defined CC_BUILD_DARWIN
-	#include "posix/Plat_Darwin.inc"
-#elif defined CC_BUILD_ANDROID
-	#include "posix/Plat_Android.inc"
-#elif defined CC_BUILD_LINUX
-	#include "posix/Plat_Linux.inc"
-#elif defined CC_BUILD_SOLARIS
-	#include "posix/Plat_Solaris.inc"
-#elif defined CC_BUILD_NETBSD
-	#include "posix/Plat_NetBSD.inc"
-#elif defined CC_BUILD_FREEBSD
-	#include "posix/Plat_FreeBSD.inc"
-#elif defined CC_BUILD_OPENBSD
-	#include "posix/Plat_OpenBSD.inc"
-#elif defined CC_BUILD_HAIKU
-	#include "posix/Plat_Haiku.inc"
-#elif defined CC_BUILD_SERENITY
-	#include "posix/Plat_SerenityOS.inc"
-#elif defined CC_BUILD_IRIX
-	#include "posix/Plat_IRIX.inc"
-#else
-void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
-	/* Register dumping not implemented */
-}
-#endif
-
-static void DumpRegisters(void* ctx) {
-	cc_string str; char strBuffer[768];
-	String_InitArray(str, strBuffer);
-
-	String_AppendConst(&str, "-- registers --" _NL);
-	CrashHandler_DumpRegisters(ctx, &str);
-	Logger_Log(&str);
-}
 
 
 /*########################################################################################################################*

@@ -5,10 +5,6 @@
 
 void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	mcontext_t* r = &((ucontext_t*)ctx)->uc_mcontext;
-
-	#define REG_GNUM(num) &r->__gregs[CTX_EPC]
-	#define REG_GET_PC()  &r->__gregs[CTX_MDLO]
-	#define REG_GET_LO()  &r->__gregs[CTX_MDLO]
-	#define REG_GET_HI()  &r->__gregs[CTX_MDHI]
-	Dump_MIPS()
+	/* TODO dump other CPU registers.. */
+	String_Format3(str, "pc =%x lo =%x hi =%x" _NL,        &r->__gregs[CTX_EPC], &r->__gregs[CTX_MDLO], &r->__gregs[CTX_MDHI]);
 }

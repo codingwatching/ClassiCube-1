@@ -2,52 +2,69 @@
 void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	CONTEXT* r = (CONTEXT*)ctx;
 #if defined _M_IX86
-	#define REG_GET(reg, ign) &r->E ## reg
-	Dump_X86()
+	String_Format3(str, "eax=%x ebx=%x ecx=%x" _NL, &r->EAX, &r->EBX, &r->ECX);
+	String_Format3(str, "edx=%x esi=%x edi=%x" _NL, &r->EDX, &r->ESI, &r->EDI);
+	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, &r->EIP, &r->EBP, &r->ESP);
 #elif defined _M_X64
-	#define REG_GET(reg, ign) &r->R ## reg
-	Dump_X64()
+	String_Format3(str, "rax=%x rbx=%x rcx=%x" _NL, &r->RAX, &r->RBX, &r->RCX);
+	String_Format3(str, "rdx=%x rsi=%x rdi=%x" _NL, &r->RDX, &r->RSI, &r->RDI);
+	String_Format3(str, "rip=%x rbp=%x rsp=%x" _NL, &r->RIP, &r->RBP, &r->RSP);
+	String_Format3(str, "r8 =%x r9 =%x r10=%x" _NL, &r->R8,  &r->R9,  &r->R10);
+	String_Format3(str, "r11=%x r12=%x r13=%x" _NL, &r->R11, &r->R12, &r->R13);
+	String_Format2(str, "r14=%x r15=%x" _NL,        &r->R14, &r->R15);
 #elif defined _M_ARM64
-	#define REG_GNUM(num)     &r->X[num]
-	#define REG_GET_FP()      &r->Fp
-	#define REG_GET_LR()      &r->Lr
-	#define REG_GET_SP()      &r->Sp
-	#define REG_GET_PC()      &r->Pc
-	Dump_ARM64()
+	String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, &r->X[0],  &r->X[1],  &r->X[2],  &r->X[3]);
+	String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, &r->X[4],  &r->X[5],  &r->X[6],  &r->X[7]);
+	String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, &r->X[8],  &r->X[9],  &r->X[10], &r->X[11]);
+	String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, &r->X[12], &r->X[13], &r->X[14], &r->X[15]);
+	String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, &r->X[16], &r->X[17], &r->X[18], &r->X[19]);
+	String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, &r->X[20], &r->X[21], &r->X[22], &r->X[23]);
+	String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, &r->X[24], &r->X[25], &r->X[26], &r->X[27]);
+	String_Format4(str, "r28=%x fp =%x lr =%x sp =%x" _NL, &r->X[28], &r->Fp,    &r->Lr,    &r->Sp);
+	String_Format1(str, "pc =%x" _NL,                      &r->Pc);
 #elif defined _M_ARM
-	#define REG_GNUM(num)     &r->R ## num
-	#define REG_GET_FP()      &r->R11
-	#define REG_GET_IP()      &r->R12
-	#define REG_GET_SP()      &r->Sp
-	#define REG_GET_LR()      &r->Lr
-	#define REG_GET_PC()      &r->Pc
-	Dump_ARM32()
+	String_Format3(str, "r0 =%x r1 =%x r2 =%x" _NL, &r->R0,  &r->R1,  &r->R2);
+	String_Format3(str, "r3 =%x r4 =%x r5 =%x" _NL, &r->R3,  &r->R4,  &r->R5);
+	String_Format3(str, "r6 =%x r7 =%x r8 =%x" _NL, &r->R6,  &r->R7,  &r->R8);
+	String_Format3(str, "r9 =%x r10=%x r11=%x" _NL, &r->R9,  &r->R10, &r->R11);
+	String_Format3(str, "r12=%x sp =%x lr =%x" _NL, &r->R12, &r->Sp,  &r->Lr)
+	String_Format1(str, "pc =%x"               _NL, &r->Pc);
 #elif defined _M_PPC
-	#define REG_GNUM(num) &r->Gpr ## num
-	#define REG_GET_PC()  &r->Iar
-	#define REG_GET_LR()  &r->Lr
-	#define REG_GET_CTR() &r->Ctr
-	Dump_PPC()
+	String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, &r->Gpr0,  &r->Gpr1,  &r->Gpr2,  &r->Gpr3);
+	String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, &r->Gpr4,  &r->Gpr5,  &r->Gpr6,  &r->Gpr7);
+	String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, &r->Gpr8,  &r->Gpr9,  &r->Gpr10, &r->Gpr11);
+	String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, &r->Gpr12, &r->Gpr13, &r->Gpr14, &r->Gpr15);
+	String_Format4(str, "r16=%x r17=%x r18=%x r19=%x" _NL, &r->Gpr16, &r->Gpr17, &r->Gpr18, &r->Gpr19);
+	String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, &r->Gpr20, &r->Gpr21, &r->Gpr22, &r->Gpr23);
+	String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, &r->Gpr24, &r->Gpr25, &r->Gpr26, &r->Gpr27);
+	String_Format4(str, "r28=%x r29=%x r30=%x r31=%x" _NL, &r->Gpr28, &r->Gpr29, &r->Gpr30, &r->Gpr31);
+	String_Format3(str, "pc =%x lr =%x ctr=%x" _NL,        &r->Iar,   &r->Lr,    &r->Ctr);
 #elif defined _M_ALPHA
-	#define REG_GNUM(num) &r->IntV0 + num
-	#define REG_GET_FP()  &r->IntFp
-	#define REG_GET_SP()  &r->IntSp
-	#define REG_GET_PC()  &r->Fir
-	Dump_Alpha()
+	String_Format4(str, "v0 =%x t0 =%x t1 =%x t2 =%x" _NL, &r->IntV0,  &r->IntT0, &r->IntT1,  &r->IntT2);
+	String_Format4(str, "t3 =%x t4 =%x t5 =%x t6 =%x" _NL, &r->IntT3,  &r->IntT4, &r->IntT5,  &r->IntT6);
+	String_Format4(str, "t7 =%x s0 =%x s1 =%x s2 =%x" _NL, &r->IntT7,  &r->IntS0, &r->IntS1,  &r->IntS2);
+	String_Format4(str, "s3 =%x s4 =%x s5 =%x a0 =%x" _NL, &r->IntS3,  &r->IntS4, &r->IntS5,  &r->IntA0);
+	String_Format4(str, "a1 =%x a2 =%x a3 =%x a4 =%x" _NL, &r->IntA1,  &r->IntA2, &r->IntA3,  &r->IntA4);
+	String_Format4(str, "a5 =%x t8 =%x t9 =%x t10=%x" _NL, &r->IntA5,  &r->IntT8, &r->IntT9,  &r->IntT10);
+	String_Format4(str, "t11=%x ra =%x t12=%x at =%x" _NL, &r->IntT11, &r->IntRa, &r->IntT12, &r->IntAt);
+	String_Format4(str, "gp =%x fp =%x sp =%x pc =%x" _NL, &r->IntGp,  &r->IntFp, &r->IntSp,  &r->Fir);
 #elif defined _MIPS_
-	#define REG_GNUM(num) &r->IntZero + num
-	#define REG_GET_PC()  &r->Fir
-	#define REG_GET_LO()  &r->IntLo
-	#define REG_GET_HI()  &r->IntHi
-	Dump_MIPS()
+	String_Format4(str, "at =%x v0 =%x v1 =%x a0 =%x" _NL, &r->IntAt, &r->IntV0, &r->IntV1, &r->IntA0);
+	String_Format4(str, "a1 =%x a2 =%x a3 =%x t0 =%x" _NL, &r->IntA1, &r->IntA2, &r->IntA3, &r->IntT0); 
+	String_Format4(str, "t1 =%x t2 =%x t3 =%x t4 =%x" _NL, &r->IntT1, &r->IntT2, &r->IntT3, &r->IntT4);
+	String_Format4(str, "t5 =%x t6 =%x t7 =%x s0 =%x" _NL, &r->IntT5, &r->IntT6, &r->IntT7, &r->IntS0);
+	String_Format4(str, "s1 =%x s2 =%x s3 =%x s4 =%x" _NL, &r->IntS1, &r->IntS2, &r->IntS3, &r->IntS4);
+	String_Format4(str, "s5 =%x s6 =%x s7 =%x t8 =%x" _NL, &r->IntS5, &r->IntS6, &r->IntS7, &r->IntT8);
+	String_Format4(str, "t9 =%x ko =%x k1 =%x gp =%x" _NL, &r->IntT9, &r->IntK0, &r->IntK1, &r->IntGp);
+	String_Format4(str, "sp =%x s8 =%x ra =%x pc =%x" _NL, &r->IntSp, &r->IntS8, &r->IntRa, &r->Fir);
+	String_Format3(str, "lo =%x hi =%x" _NL,               &r->IntLo, &r->IntHi);
 #elif defined SHx
-	#define REG_GNUM(num)  &r->R ## num
-	#define REG_GET_MACL() &r->MACL
-	#define REG_GET_MACH() &r->MACH
-	#define REG_GET_GBR()  &r->GBR
-	#define REG_GET_PC()   &r->Fir
-	#define REG_GET_RA()   &r->PR
-	Dump_SH()
+	String_Format4(str, "r0 =%x r1 =%x r2 =%x r3 =%x" _NL, &r->R0,   &r->R1,   &r->R2,  &r->R3);
+	String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, &r->R4,   &r->R5,   &r->R6,  &r->R7);
+	String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, &r->R8,   &r->R9,   &r->R10, &r->R11);
+	String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, &r->R12,  &r->R13,  &r->R14, &r->R15);
+	String_Format3(str, "mal=%x mah=%x gbr=%x"        _NL, &r->MACL, &r->MACH, &r->Fir);
+	String_Format2(str, "pc =%x ra =%x"               _NL, &r->Fir,  &r->PR);
 #else
 	#error "Unknown CPU architecture"
 #endif
