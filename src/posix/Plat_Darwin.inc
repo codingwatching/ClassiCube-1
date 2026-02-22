@@ -22,6 +22,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format3(str, "r11=%x r12=%x r13=%x" _NL, RREG(r11), RREG(r12), RREG(r13));
 	String_Format2(str, "r14=%x r15=%x" _NL,        RREG(r14), RREG(r15));
 #elif defined __aarch64__
+	/* /usr/include/mach/arm/_structs.h */
 	#define RREG(reg) &r->__ss.__##reg
 	#define RNUM(reg) &r->__ss.__x[reg]
 
@@ -35,6 +36,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "r28=%x fp =%x lr =%x sp =%x" _NL, RNUM(28), RREG(fp), RREG(lr), RREG(sp));
 	String_Format1(str, "pc =%x" _NL,                      RREG(pc));
 #elif defined __arm__
+	/* /usr/include/mach/arm/_structs.h */
 	#define RREG(reg) &r->__ss.__##reg
 	#define RNUM(reg) &r->__ss.__r[reg]
 

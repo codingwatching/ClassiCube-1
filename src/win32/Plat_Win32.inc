@@ -74,7 +74,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "s5 =%x s6 =%x s7 =%x t8 =%x" _NL, RREG(S5), RREG(S6), RREG(S7), RREG(T8));
 	String_Format4(str, "t9 =%x ko =%x k1 =%x gp =%x" _NL, RREG(T9), RREG(K0), RREG(K1), RREG(Gp));
 	String_Format4(str, "sp =%x s8 =%x ra =%x pc =%x" _NL, RREG(Sp), RREG(S8), RREG(Ra), &r->Fir));
-	String_Format3(str, "lo =%x hi =%x" _NL,               RREG(Lo), RREG(Hi));
+	String_Format3(str, "lo =%x hi =%x"               _NL, RREG(Lo), RREG(Hi));
 #elif defined SHx
 	#define RREG(reg) &r->reg
 	#define RNUM(reg) &r->R##reg
@@ -83,7 +83,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, RNUM(4),    RNUM(5),    RNUM(6),  RNUM(7));
 	String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, RNUM(8),    RNUM(9),    RNUM(10), RNUM(11));
 	String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, RNUM(12),   RNUM(13),   RNUM(14), RNUM(15));
-	String_Format3(str, "mal=%x mah=%x gbr=%x"        _NL, RREG(MACL), RREG(MACH), RREG(Fir));
+	String_Format3(str, "mal=%x mah=%x gbr=%x"        _NL, RREG(MACL), RREG(MACH), RREG(Gbr));
 	String_Format2(str, "pc =%x ra =%x"               _NL, RREG(Fir),  RREG(PR));
 #else
 	#error "Unknown CPU architecture"

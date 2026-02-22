@@ -69,7 +69,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "o4=%x o5=%x o6=%x o7=%x" _NL, RREG(O4), RREG(O5), RREG(O6), RREG(O7));
 	String_Format4(str, "g1=%x g2=%x g3=%x g4=%x" _NL, RREG(G1), RREG(G2), RREG(G3), RREG(G4));
 	String_Format4(str, "g5=%x g6=%x g7=%x y =%x" _NL, RREG(G5), RREG(G6), RREG(G7), RREG(Y));
-	String_Format2(str, "pc=%x nc=%x" _NL,             RREG(PC), RREG(nPC));
+	String_Format2(str, "pc=%x nc=%x"             _NL, RREG(PC), RREG(nPC));
 #elif defined __PPC__ && __WORDSIZE == 32
 	/* See sysdeps/unix/sysv/linux/powerpc/sys/ucontext.h in glibc */
 	mcontext_t* r = ((ucontext_t*)ctx)->uc_mcontext.uc_regs;
@@ -83,7 +83,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, RNUM(20), RNUM(21), RNUM(22), RNUM(23));
 	String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, RNUM(24), RNUM(25), RNUM(26), RNUM(27));
 	String_Format4(str, "r28=%x r29=%x r30=%x r31=%x" _NL, RNUM(28), RNUM(29), RNUM(30), RNUM(31));
-	String_Format3(str, "pc =%x lr =%x ctr=%x" _NL,        RNUM(32), RNUM(35), RNUM(34));
+	String_Format3(str, "pc =%x lr =%x ctr=%x"        _NL, RNUM(32), RNUM(35), RNUM(34));
 #elif defined __PPC__
 	mcontext_t* r = &((ucontext_t*)ctx)->uc_mcontext;
 	/* TODO LR,CTR might be wrong, compare with PT_LNK in */
@@ -98,7 +98,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "r20=%x r21=%x r22=%x r23=%x" _NL, RNUM(20), RNUM(21), RNUM(22), RNUM(23));
 	String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, RNUM(24), RNUM(25), RNUM(26), RNUM(27));
 	String_Format4(str, "r28=%x r29=%x r30=%x r31=%x" _NL, RNUM(28), RNUM(29), RNUM(30), RNUM(31));
-	String_Format3(str, "pc =%x lr =%x ctr=%x" _NL,        RNUM(32), RNUM(35), RNUM(34));
+	String_Format3(str, "pc =%x lr =%x ctr=%x"        _NL, RNUM(32), RNUM(35), RNUM(34));
 #elif defined __mips__
 	mcontext_t* r = &((ucontext_t*)ctx)->uc_mcontext;
 	#define RREG(reg) &r->reg
@@ -118,7 +118,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	#define RREG(reg) &r->__gregs[REG_##reg]
 	#define RNUM(reg) &r->__gregs[reg]
 
-	String_Format4(str, "pc =%x r1 =%x r2 =%x r3 =%x" _NL, RREG(PC), RNUM(1),  RNUM(2),  RNUM(3));
+	String_Format4(str, "pc =%x ra =%x sp =%x r3 =%x" _NL, RREG(PC), RNUM(1),  RNUM(2),  RNUM(3));
 	String_Format4(str, "r4 =%x r5 =%x r6 =%x r7 =%x" _NL, RNUM(4),  RNUM(5),  RNUM(6),  RNUM(7));
 	String_Format4(str, "r8 =%x r9 =%x r10=%x r11=%x" _NL, RNUM(8),  RNUM(9),  RNUM(10), RNUM(11));
 	String_Format4(str, "r12=%x r13=%x r14=%x r15=%x" _NL, RNUM(12), RNUM(13), RNUM(14), RNUM(15));
