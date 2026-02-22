@@ -11,7 +11,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 
 	String_Format3(str, "eax=%x ebx=%x ecx=%x" _NL, RREG(eax), RREG(ebx), RREG(ecx));
 	String_Format3(str, "edx=%x esi=%x edi=%x" _NL, RREG(edx), RREG(esi), RREG(edi));
-	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp))
+	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp));
 #elif defined __x86_64__
 	#define RREG(reg) &r->__ss.__##reg
 
@@ -34,7 +34,6 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format4(str, "r24=%x r25=%x r26=%x r27=%x" _NL, RNUM(24), RNUM(25), RNUM(26), RNUM(27));
 	String_Format4(str, "r28=%x fp =%x lr =%x sp =%x" _NL, RNUM(28), RREG(fp), RREG(lr), RREG(sp));
 	String_Format1(str, "pc =%x" _NL,                      RREG(pc));
-
 #elif defined __arm__
 	#define RREG(reg) &r->__ss.__##reg
 	#define RNUM(reg) &r->__ss.__r[reg]
@@ -45,7 +44,6 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	String_Format3(str, "r9 =%x r10=%x r11=%x" _NL, RNUM(9),  RNUM(10), RNUM(11));
 	String_Format3(str, "r12=%x sp =%x lr =%x" _NL, RNUM(12), RREG(sp), RREG(lr));
 	String_Format1(str, "pc =%x"               _NL, RREG(pc));
-
 #elif defined __ppc__
 	#define RREG(reg) &r->__ss.__##reg
 	#define RNUM(reg) &r->__ss.__r##reg
@@ -72,7 +70,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 
 	String_Format3(str, "eax=%x ebx=%x ecx=%x" _NL, RREG(eax), RREG(ebx), RREG(ecx));
 	String_Format3(str, "edx=%x esi=%x edi=%x" _NL, RREG(edx), RREG(esi), RREG(edi));
-	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp))
+	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp));
 #elif defined __x86_64__
 	#define RREG(reg) &r->ss.reg
 
@@ -99,3 +97,4 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 	#error "Unknown CPU architecture"
 #endif
 }
+#endif

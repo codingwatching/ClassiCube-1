@@ -11,7 +11,7 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 
 	String_Format3(str, "eax=%x ebx=%x ecx=%x" _NL, RREG(eax), RREG(ebx), RREG(ecx));
 	String_Format3(str, "edx=%x esi=%x edi=%x" _NL, RREG(edx), RREG(esi), RREG(edi));
-	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp))
+	String_Format3(str, "eip=%x ebp=%x esp=%x" _NL, RREG(eip), RREG(ebp), RREG(esp));
 #elif defined __x86_64__
 	#define RREG(reg) &r->sc_##reg
 
