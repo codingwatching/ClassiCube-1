@@ -12,18 +12,32 @@
 #include "../Options.h"
 #include "../VirtualKeyboard.h"
 #include <VideoOut.h>
+#include <libkernel.h>
 
 struct _DisplayData DisplayInfo;
 struct cc_window WindowInfo;
+
+static int vid_handle;
+static OrbisKernelEqueue vid_flipQueue;
 
 void Window_PreInit(void) {
 	Platform_LogConst("initing 1..");
 }
 
+static void AllocVideoLink(void) {
+	vid_handle = sceVideoOutOpen(ORBIS_VIDEO_USER_MAIN, ORBIS_VIDEO_OUT_BUS_MAIN, 0, 0);
+
+	int res = sceKernelCreateEqueue(&vid_flipQueue, "flip queue");
+	if (res < 0) Process_Abort2(res, "flip queue");
+		
+	sceVideoOutAddFlipEvent(vid_flipQueue, vid_handle, 0);
+}
+
 void Window_Init(void) {
+	AllocVideoLink();
+
 	OrbisVideoOutResolutionStatus res;
-	int handle = sceVideoOutOpen(ORBIS_VIDEO_USER_MAIN, ORBIS_VIDEO_OUT_BUS_MAIN, 0, 0);
-	sceVideoOutGetResolutionStatus(handle, &res);
+	sceVideoOutGetResolutionStatus(vid_handle, &res);
       
 	DisplayInfo.Width  = res.width;
 	DisplayInfo.Height = res.height;
