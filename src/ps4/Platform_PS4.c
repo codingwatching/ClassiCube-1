@@ -27,11 +27,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <utime.h>
-#include <signal.h>
 #include <stdio.h>
 #include <netdb.h>
-#include <libkernel.h>
+#include <orbis/libkernel.h>
+#include <orbis/Rtc.h>
 
 const cc_result ReturnCode_FileShareViolation = 1000000000; /* TODO: not used apparently */
 const cc_result ReturnCode_FileNotFound     = ENOENT;
@@ -52,7 +51,13 @@ cc_uint8 Platform_Flags = PLAT_FLAG_SINGLE_PROCESS | PLAT_FLAG_APP_EXIT;
 *#########################################################################################################################*/
 #include "../main_impl.h"
 
+static char* argvv[2] = { "CCC", "CCC"};
+
 int main(int argc, char** argv) {
+	//argv = argvv; argc = 2;
+	//struct cc_datetime d;
+	//DateTime_CurrentLocal(&d);
+
 	SetupProgram(argc, argv);
 	while (Window_Main.Exists) { 
 		RunProgram(argc, argv);
@@ -78,17 +83,19 @@ TimeMS DateTime_CurrentUTC(void) {
 }
 
 void DateTime_CurrentLocal(struct cc_datetime* t) {
-	struct timeval cur;
-	struct tm loc_time;
-	gettimeofday(&cur, NULL);
-	localtime_r(&cur.tv_sec, &loc_time);
+	TimeTable cur;
+	sceRtcGetCurrentClockLocalTime(&cur);
 
-	t->year   = loc_time.tm_year + 1900;
-	t->month  = loc_time.tm_mon  + 1;
-	t->day    = loc_time.tm_mday;
-	t->hour   = loc_time.tm_hour;
-	t->minute = loc_time.tm_min;
-	t->second = loc_time.tm_sec;
+	// TODO these are probaly wrong
+	t->year   = cur.year + 1900;
+	t->month  = cur.month  + 1;
+	t->day    = cur.day;
+	t->hour   = cur.hour;
+	t->minute = cur.minute;
+	t->second = cur.second;
+
+	//Platform_Log3("%i-%i-%i", &t->year, &t->month, &t->day);
+	//Platform_Log3("%i:%i:%i", &t->hour, &t->minute, &t->second);
 }
 
 

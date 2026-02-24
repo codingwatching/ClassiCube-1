@@ -11,8 +11,10 @@
 #include "../Logger.h"
 #include "../Options.h"
 #include "../VirtualKeyboard.h"
-#include <VideoOut.h>
-#include <libkernel.h>
+#include <orbis/VideoOut.h>
+#include <orbis/libkernel.h>
+#include <orbis/Pad.h>
+#include <orbis/UserService.h>
 
 struct _DisplayData DisplayInfo;
 struct cc_window WindowInfo;
@@ -53,6 +55,9 @@ static void AllocVideoLink(void) {
 #define NUM_DISPLAY_BUFFERS 2
 static char* vid_fbs[NUM_DISPLAY_BUFFERS];
 
+#define _ORBIS_VIDEO_OUT_PIXEL_FORMAT_A8R8G8B8_SRGB 0x80000000
+#define _ORBIS_VIDEO_OUT_PIXEL_FORMAT_A8B8G8R8_SRGB 0x80002200
+
 static void AllocFramebuffers(void) {
 	OrbisVideoOutBufferAttribute attr;
 	int w = DisplayInfo.Width, h = DisplayInfo.Height;
@@ -63,7 +68,7 @@ static void AllocFramebuffers(void) {
 	vid_fbs[0] = (char*)addr; 
 	vid_fbs[1] = (char*)(addr + 16 * 1024 * 1024);
 	
-	sceVideoOutSetBufferAttribute(&attr, ORBIS_VIDEO_OUT_PIXEL_FORMAT_A8B8G8R8_SRGB/*0x80000000*/, 
+	sceVideoOutSetBufferAttribute(&attr, _ORBIS_VIDEO_OUT_PIXEL_FORMAT_A8B8G8R8_SRGB, 
 								ORBIS_VIDEO_OUT_TILING_MODE_LINEAR, ORBIS_VIDEO_OUT_ASPECT_RATIO_16_9, w, h, w);
 	
 	res = sceVideoOutRegisterBuffers(vid_handle, 0, (void **)vid_fbs, NUM_DISPLAY_BUFFERS, &attr);
@@ -141,11 +146,31 @@ void Window_DisableRawMouse(void) { Input.RawMode = false; }
 
 /*########################################################################################################################*
 *-------------------------------------------------------Gamepads----------------------------------------------------------*
-*#########################################################################################################################*/
-void Gamepads_PreInit(void) { }
-void Gamepads_Init(void)    { }
+*#########################################################################################################################*/\
+static int pad_handle;
+
+void Gamepads_PreInit(void) {
+	int res = scePadInit();
+	if (res < 0) Process_Abort2(res, "initing pad");
+}
+
+void Gamepads_Init(void) { 
+	OrbisUserServiceInitializeParams param;
+	param.priority = ORBIS_KERNEL_PRIO_FIFO_LOWEST;
+	sceUserServiceInitialize(&param);
+
+	int userId;
+	int res = sceUserServiceGetInitialUser(&userId);
+	if (res < 0) Process_Abort2(res, "getting user");
+
+    pad_handle = scePadOpen(userId, ORBIS_PAD_PORT_TYPE_STANDARD, 0, NULL);
+    if (pad_handle < 0) Process_Abort2(pad_handle, "pad open");
+}
 
 void Gamepads_Process(float delta) {
+	OrbisPadData data;
+	int res = scePadRead(pad_handle, &data, 1);
+	if (res < 0) Process_Abort2(res, "polling pad");
 }
 
 
