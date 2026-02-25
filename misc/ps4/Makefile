@@ -13,9 +13,9 @@ SOURCE_DIRS = src src/ps4 third_party/bearssl
 
 TARGET		= ClassiCube-PS4
 TITLE       := ClassiCube
-VERSION     := 1.00
-TITLE_ID    := BREW00083
-CONTENT_ID  := IV0000-BREW00083_00-HELLOWORLD000000
+VERSION     := 1.38
+TITLE_ID    := CUBE00200
+CONTENT_ID  := IV0000-CUBE00200_00-CLASSICUBE000000
 
 #---------------------------------------------------------------------------------
 # Compilable files
