@@ -132,7 +132,8 @@ amiga:
 atari_st:
 	$(MAKE) -f misc/atari_st/Makefile $(filter-out $@, $(MAKECMDGOALS))
 
-# Cleans up all build .o files (except when clean goal is from e.g 'make freebsd clean')
+
+# Cleans up built files (except when clean goal is from e.g 'make freebsd clean')
 ifeq ($(MAKECMDGOALS),clean)
 clean:
 	$(MAKE) $(PLAT) clean

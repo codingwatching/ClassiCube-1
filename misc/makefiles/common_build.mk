@@ -4,12 +4,23 @@
 TRACK_DEPENDENCIES ?= 1
 
 #-----------------------------
+# Source file gathering
+#-----------------------------
+C_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.c))
+#CPP_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.cpp))
+#S_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.S))
+#M_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.m))
+
+#-----------------------------
 # Autoconfigured variables
 #-----------------------------
+C_OBJECTS	:= $(patsubst %.c,$(BUILD_DIR)/%.o, $(C_SOURCES))
+CPP_OBJECTS	:= $(patsubst %.cpp,$(BUILD_DIR)/%.o, $(CPP_SOURCES))
+S_OBJECTS	:= $(patsubst %.S,$(BUILD_DIR)/%.o, $(S_SOURCES))
+M_OBJECTS	:= $(patsubst %.m,$(BUILD_DIR)/%.o, $(M_SOURCES))
+
 BUILD_DIRS	:= $(BUILD_DIR) $(addprefix $(BUILD_DIR)/, $(SOURCE_DIRS))
-C_SOURCES   := $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.c))
-C_OBJECTS   := $(patsubst %.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
-OBJECTS 	+= $(C_OBJECTS)
+OBJECTS		+= $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) $(M_OBJECTS)
 
 
 #----------------------------------------------------------------
@@ -58,6 +69,8 @@ $(DEPFILES):
 
 $(BUILD_DIR)/%.o : %.c $(BUILD_DIR)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o : %.S $(BUILD_DIR)/%.d
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
 $(BUILD_DIR)/%.o : %.cpp $(BUILD_DIR)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
 $(BUILD_DIR)/%.o : %.m $(BUILD_DIR)/%.d
@@ -68,6 +81,8 @@ include $(wildcard $(DEPFILES))
 else
 # === Compiling without dependency tracking ===
 $(BUILD_DIR)/%.o : %.c
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o : %.S
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
 $(BUILD_DIR)/%.o : %.cpp
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
