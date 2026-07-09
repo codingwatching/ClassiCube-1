@@ -39,7 +39,7 @@
             "buildsystem": "simple",
             "build-commands": [
                 "make linux RELEASE=1 EXTRA_CFLAGS=\"-DCC_BUILD_FLATPAK -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2\"",
-                "install -Dm755 src/ClassiCube -t ${FLATPAK_DEST}/bin",
+                "install -Dm755 ClassiCube -t ${FLATPAK_DEST}/bin",
                 "install -Dm755 misc/flatpak/ClassiCubeLauncher -t ${FLATPAK_DEST}/bin",
                 "install -Dm644 misc/flatpak/net.classicube.flatpak.client.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/net.classicube.flatpak.client.svg",
                 "install -Dm644 misc/flatpak/net.classicube.flatpak.client.desktop ${FLATPAK_DEST}/share/applications/net.classicube.flatpak.client.desktop",

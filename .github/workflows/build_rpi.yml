@@ -33,10 +33,12 @@ jobs:
         run: |
           LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
 
-          export EXTRA_CFLAGS="-I rpi_files/include -fno-stack-protector $LATEST_FLAG"
-          export EXTRA_LDFLAGS="-s -L rpi_files/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
+          COMMON_CFLAGS="-I rpi_files/include -fno-stack-protector $LATEST_FLAG"
+          COMMON_LDFLAGS="-s -L rpi_files/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
-          make rpi RELEASE=1 TARGET=cc-rpi32
+          make rpi RELEASE=1 TARGET=cc-rpi32 \
+				EXTRA_CFLAGS="$COMMON_CFLAGS" \
+				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build
@@ -79,10 +81,12 @@ jobs:
         run: |
           LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
 
-          export EXTRA_CFLAGS="-I rpi_files/include -fno-stack-protector $LATEST_FLAG"
-          export EXTRA_LDFLAGS="-s -L rpi_files/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
+          COMMON_CFLAGS="-I rpi_files/include -fno-stack-protector $LATEST_FLAG"
+          COMMON_LDFLAGS="-s -L rpi_files/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
-          make rpi RELEASE=1 TARGET=cc-rpi64
+          make rpi RELEASE=1 TARGET=cc-rpi64 \
+				EXTRA_CFLAGS="$COMMON_CFLAGS" \
+				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build
