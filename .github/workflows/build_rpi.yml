@@ -85,8 +85,8 @@ jobs:
           COMMON_LDFLAGS="-s -L rpi_files/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
           make rpi RELEASE=1 TARGET=cc-rpi64 \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build

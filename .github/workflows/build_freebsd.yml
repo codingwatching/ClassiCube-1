@@ -42,8 +42,8 @@ jobs:
           COMMON_LDFLAGS="-s -L freebsd64/lib"
 
           make freebsd RELEASE=1 TARGET=cc-fbsd64-gl1 CC=x86_64-freebsd11-clang \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
 
       - name: Compile FreeBSD 32 bit build
         shell: bash
@@ -55,8 +55,8 @@ jobs:
           COMMON_LDFLAGS="-s -L freebsd32/lib"
 
           make freebsd RELEASE=1 TARGET=cc-fbsd32-gl1 CC=i386-freebsd11-clang \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build

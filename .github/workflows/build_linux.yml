@@ -46,13 +46,13 @@ jobs:
           COMMON_LDFLAGS="-m32 -s -no-pie -L ./lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
           make linux RELEASE=1 TARGET=cc-nix32-gl1 \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
 
           make linux clean
           make linux RELEASE=1 TARGET=cc-nix32-gl2 \
-				EXTRA_CFLAGS="$COMMON_CFLAGS -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
 
       
       - uses: ./.github/actions/upload_build
@@ -110,13 +110,13 @@ jobs:
           COMMON_LDFLAGS="-m64 -s -no-pie -L ./lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
           make linux RELEASE=1 TARGET=cc-nix64-gl1 \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
 
           make linux clean
           make linux RELEASE=1 TARGET=cc-nix64-gl2 \
-				EXTRA_CFLAGS="$COMMON_CFLAGS -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           #gcc ${{ env.SRCS }} ${{ env.FLAGS }} ${{ env.NIX64_FLAGS }} $LATEST_FLAG -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL2 -DCC_WIN_BACKEND=CC_WIN_BACKEND_SDL2 -o cc-sdl64-gl2 -lSDL2  ${{ env.LIBS }}
 
           

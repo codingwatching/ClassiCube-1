@@ -38,8 +38,8 @@ jobs:
           COMMON_LDFLAGS="-s -L netbsd64/lib -Wl,-R/usr/X11R7/lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
           make netbsd RELEASE=1 TARGET=cc-netbsd64-gl1 CC=x86_64-unknown-netbsd-gcc \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build
