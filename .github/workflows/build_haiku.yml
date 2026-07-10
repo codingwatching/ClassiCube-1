@@ -29,8 +29,8 @@ jobs:
           COMMON_LDFLAGS="-s"
 
           make haiku RELEASE=1 TARGET=cc-haiku CC=x86_64-unknown-haiku-gcc CXX=x86_64-unknown-haiku-g++ \
-				EXTRA_CFLAGS="$COMMON_CFLAGS" \
-				EXTRA_LDFLAGS="$COMMON_LDFLAGS"
+                EXTRA_CFLAGS="$COMMON_CFLAGS" \
+                EXTRA_LDFLAGS="$COMMON_LDFLAGS"
           
           
       - uses: ./.github/actions/upload_build
