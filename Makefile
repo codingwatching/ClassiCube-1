@@ -118,7 +118,7 @@ switch:
 
 # Other systems
 os/2:
-	$(MAKE) -f misc/os2/Makefile $(filter-out $@, $(MAKECMDGOALS))
+	$(MAKE) -f misc/makefiles/os2.mk $(filter-out $@, $(MAKECMDGOALS))
 dos:
 	$(MAKE) -f misc/makefiles/msdos.mk $(filter-out $@, $(MAKECMDGOALS))
 macclassic_68k:

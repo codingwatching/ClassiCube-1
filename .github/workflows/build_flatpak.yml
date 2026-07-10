@@ -45,7 +45,7 @@ jobs:
       image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-24.08
       options: --privileged
     steps:
-    - uses: actions/checkout@v5
+      - uses: actions/checkout@v5
       - name: Compiles flatpak
         run: |
           flatpak-builder --repo=CCrepo --install-deps-from=flathub --arch=aarch64 build/flatpak misc/flatpak/net.classicube.flatpak.client.X11.json

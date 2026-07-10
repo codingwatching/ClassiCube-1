@@ -46,7 +46,6 @@ LDFLAGS	= -specs=gba.specs -g $(ARCH)
 # Compiler tools
 #---------------------------------------------------------------------------------
 PREFIX	= $(DEVKITPRO)/devkitARM/bin/arm-none-eabi-
-ARM_AS	= $(PREFIX)as
 ARM_CC	= $(PREFIX)gcc
 ARM_OBJCOPY = $(PREFIX)objcopy
 

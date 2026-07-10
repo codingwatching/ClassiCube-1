@@ -1516,19 +1516,6 @@ br_digest_size(const br_hash_class *digest_class)
 		& BR_HASHDESC_OUT_MASK;
 }
 
-/*
- * Get the output size (in bytes) of a hash function.
- */
-size_t br_digest_size_by_ID(int digest_id);
-
-/*
- * Get the OID (encoded OBJECT IDENTIFIER value, without tag and length)
- * for a hash function. If digest_id is not a supported digest identifier
- * (in particular if it is equal to 0, i.e. br_md5sha1_ID), then NULL is
- * returned and *len is set to 0.
- */
-const unsigned char *br_digest_OID(int digest_id, size_t *len);
-
 /* ==================================================================== */
 /*
  * DES support functions.
