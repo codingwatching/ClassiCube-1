@@ -27,7 +27,7 @@ jobs:
         shell: bash
         env: 
           LIBS: "-framework Security -framework Cocoa -framework OpenGL -framework IOKit -lobjc -lgcc_s.1"
-          SRCS: "src/*.c src/Window_cocoa.m third_party/bearssl/*.c"
+          SRCS: "src/*.c src/macos/Window_cocoa.m third_party/bearssl/*.c"
           FLAGS: "-O2 -s -fno-stack-protector -fno-math-errno -Qn -fvisibility=hidden -rdynamic"
         run: |
           LATEST_FLAG=-DCC_COMMIT_SHA=\"${GITHUB_SHA::9}\"
@@ -40,7 +40,7 @@ jobs:
         shell: bash
         env: 
           LIBS: "-framework Security -framework Cocoa -framework OpenGL -framework IOKit -lobjc"
-          SRCS: "src/*.c src/Window_cocoa.m third_party/bearssl/*.c"
+          SRCS: "src/*.c src/macos/Window_cocoa.m third_party/bearssl/*.c"
           FLAGS: "-O2 -s -fno-stack-protector -fno-math-errno -Qn -fvisibility=hidden -static-libgcc -Wl,-no_compact_unwind -isystem /usr/local/compiler/ppc/target/SDK/MacOSX10.5.sdk -Wl,-syslibroot /usr/local/compiler/ppc/target/SDK/MacOSX10.5.sdk"
         run: |
           LATEST_FLAG=-DCC_COMMIT_SHA=\"${GITHUB_SHA::9}\"

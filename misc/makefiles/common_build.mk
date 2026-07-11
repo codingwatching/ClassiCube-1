@@ -7,19 +7,24 @@ TRACK_DEPENDENCIES ?= 1
 # Source file gathering
 #-----------------------------
 C_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.c))
-#CPP_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.cpp))
-#S_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.S))
-#M_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.m))
+CPP_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.cpp))
+S_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.S))
+M_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.m))
 
 #-----------------------------
 # Autoconfigured variables
 #-----------------------------
-C_OBJECTS	:= $(patsubst %.c,$(BUILD_DIR)/%.o, $(C_SOURCES))
-CPP_OBJECTS	:= $(patsubst %.cpp,$(BUILD_DIR)/%.o, $(CPP_SOURCES))
-S_OBJECTS	:= $(patsubst %.S,$(BUILD_DIR)/%.o, $(S_SOURCES))
-M_OBJECTS	:= $(patsubst %.m,$(BUILD_DIR)/%.o, $(M_SOURCES))
+BUILD_ROOT := $(BUILD_DIR)
+ifdef TARGET_ARCH
+BUILD_ROOT := $(BUILD_ROOT)/$(TARGET_ARCH)
+endif
 
-BUILD_DIRS	:= $(BUILD_DIR) $(addprefix $(BUILD_DIR)/, $(SOURCE_DIRS))
+C_OBJECTS	:= $(patsubst %.c,$(BUILD_ROOT)/%.o, $(C_SOURCES))
+CPP_OBJECTS	:= $(patsubst %.cpp,$(BUILD_ROOT)/%.o, $(CPP_SOURCES))
+S_OBJECTS	:= $(patsubst %.S,$(BUILD_ROOT)/%.o, $(S_SOURCES))
+M_OBJECTS	:= $(patsubst %.m,$(BUILD_ROOT)/%.o, $(M_SOURCES))
+
+BUILD_DIRS	:= $(BUILD_ROOT) $(addprefix $(BUILD_ROOT)/, $(SOURCE_DIRS))
 OBJECTS		+= $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) $(M_OBJECTS)
 
 
@@ -63,29 +68,29 @@ clean:
 #------------------------------------------------
 ifeq ($(TRACK_DEPENDENCIES), 1)
 # === Compiling with dependency tracking ===
-DEPFLAGS = -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
+DEPFLAGS = -MT $@ -MMD -MP -MF $(BUILD_ROOT)/$*.d
 DEPFILES := $(patsubst %.o, %.d, $(OBJECTS))
 $(DEPFILES):
 
-$(BUILD_DIR)/%.o : %.c $(BUILD_DIR)/%.d
+$(BUILD_ROOT)/%.o : %.c $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.S $(BUILD_DIR)/%.d
+$(BUILD_ROOT)/%.o : %.S $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.cpp $(BUILD_DIR)/%.d
+$(BUILD_ROOT)/%.o : %.cpp $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.m $(BUILD_DIR)/%.d
+$(BUILD_ROOT)/%.o : %.m $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 include $(wildcard $(DEPFILES))
 
 else
 # === Compiling without dependency tracking ===
-$(BUILD_DIR)/%.o : %.c
+$(BUILD_ROOT)/%.o : %.c
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.S
+$(BUILD_ROOT)/%.o : %.S
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.cpp
+$(BUILD_ROOT)/%.o : %.cpp
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
-$(BUILD_DIR)/%.o : %.m
+$(BUILD_ROOT)/%.o : %.m
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
 endif

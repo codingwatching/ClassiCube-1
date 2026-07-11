@@ -122,9 +122,9 @@ os/2:
 dos:
 	$(MAKE) -f misc/makefiles/msdos.mk $(filter-out $@, $(MAKECMDGOALS))
 macclassic_68k:
-	$(MAKE) -f misc/macclassic/Makefile_68k.mk $(filter-out $@, $(MAKECMDGOALS))
+	$(MAKE) -f misc/makefiles/macclassic_68k.mk $(filter-out $@, $(MAKECMDGOALS))
 macclassic_ppc:
-	$(MAKE) -f misc/macclassic/Makefile_ppc.mk $(filter-out $@, $(MAKECMDGOALS))
+	$(MAKE) -f misc/makefiles/macclassic_ppc.mk $(filter-out $@, $(MAKECMDGOALS))
 amiga_gcc:
 	$(MAKE) -f misc/amiga/Makefile_68k $(filter-out $@, $(MAKECMDGOALS))
 amiga:

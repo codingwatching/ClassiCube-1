@@ -6,10 +6,11 @@ CC=$(RETRO68)/bin/m68k-apple-macos-gcc
 CXX=$(RETRO68)/bin/m68k-apple-macos-g++
 
 REZ=$(RETRO68)/bin/Rez
-RINCLUDES=$(PREFIX)/RIncludes
-REZFLAGS=-I$(RINCLUDES)
+REZFLAGS=-I$(PREFIX)/RIncludes
+
 
 SOURCE_DIRS := src src/macclassic
+BUILD_DIR 	:= build/mac
 LIBS		:= -lm
 OEXT    	:= .code.bin
 # performance too slow if not in release mode
@@ -18,11 +19,11 @@ include misc/makefiles/common_config.mk
 
 ifdef ARCH_68040
 	TARGET		:= $(TARGET)-68040
-	BUILD_DIR 	:= build/mac_68040
+	TARGET_ARCH := 68040
 	CFLAGS		+= -march=68040
 else
 	TARGET		:= $(TARGET)-68k
-	BUILD_DIR 	:= build/mac_68k
+	TARGET_ARCH := 68k
 	CFLAGS		+= -DCC_BUILD_FPU_MODE=CC_FPU_MODE_MINIMAL -DCC_BUILD_TINYMEM -DCC_GFX_BACKEND=CC_GFX_BACKEND_SOFTMIN
 endif
 
