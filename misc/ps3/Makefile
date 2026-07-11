@@ -89,7 +89,7 @@ PACKAGE_FINALIZE :=	$(PS3DEV)/bin/package_finalize
 #---------------------------------------------------------------------------------
 # Main targets
 #---------------------------------------------------------------------------------
-default: $(BUILD_DIR) $(TARGET).pkg $(TARGET).fake.self
+default: $(BUILD_DIR) $(TARGET).gnpdrm.pkg
 
 clean:
 	rm -f $(TARGET).elf $(TARGET).fake.self $(TARGET).sprx $(TARGET).self $(TARGET).pkg $(OBJS) $(DEPFILES)
@@ -117,11 +117,13 @@ $(TARGET).self: $(TARGET).sprx
 $(TARGET).pkg: $(TARGET).self
 	mkdir -p $(BUILD_DIR)/pkg/USRDIR
 	cp $(ICON0) $(BUILD_DIR)/pkg/ICON0.PNG
-	$(SELF_NPDRM) $(TARGET).sprx $(BUILD_DIR)/pkg/USRDIR/EBOOT.BIN $(CONTENTID) >> /dev/null
+	$(SELF_NPDRM) $(TARGET).sprx $(BUILD_DIR)/pkg/USRDIR/EBOOT.BIN $(CONTENTID)
 	$(SFO) --title "$(TITLE)" --appid "$(APPID)" -f $(SFOXML) $(BUILD_DIR)/pkg/PARAM.SFO
-	$(PKG) --contentid $(CONTENTID) $(BUILD_DIR)/pkg/ $@ >> /dev/null
-	cp $@ $(TARGET).gnpdrm.pkg
-	$(PACKAGE_FINALIZE) $(TARGET).gnpdrm.pkg
+	$(PKG) --contentid $(CONTENTID) $(BUILD_DIR)/pkg/ $@
+
+$(TARGET).gnpdrm.pkg: $(TARGET).pkg
+	cp $< $@
+	$(PACKAGE_FINALIZE) $@
 
 
 #---------------------------------------------------------------------------------

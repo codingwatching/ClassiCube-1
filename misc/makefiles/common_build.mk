@@ -26,8 +26,8 @@ M_OBJECTS	:= $(patsubst %.m,$(BUILD_ROOT)/%.o, $(M_SOURCES))
 
 BUILD_DIRS	:= $(BUILD_ROOT) $(addprefix $(BUILD_ROOT)/, $(SOURCE_DIRS))
 OBJECTS		+= $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) $(M_OBJECTS)
-# All generated files that are cleaned up by 'clean' target
-GEN_FILES	+= $(TARGET)$(OEXT) $(OBJECTS)
+# Additional generated files that are cleaned up by 'clean' target
+GEN_FILES	+= $(TARGET)$(OEXT)
 
 
 #----------------------------------------------------------------
@@ -62,7 +62,7 @@ $(BUILD_DIRS):
 
 # Cleans up all built files
 clean:
-	$(RM) $(GEN_FILES)
+	$(RM) $(GEN_FILES) $(OBJECTS) $(DEPFILES)
 
 
 #------------------------------------------------
@@ -71,7 +71,7 @@ clean:
 ifeq ($(TRACK_DEPENDENCIES), 1)
 # === Compiling with dependency tracking ===
 DEPFLAGS = -MT $@ -MMD -MP -MF $(BUILD_ROOT)/$*.d
-DEPFILES := $(patsubst %.o, %.d, $(OBJECTS))
+DEPFILES := $(patsubst %.o,%.d, $(OBJECTS))
 $(DEPFILES):
 
 $(BUILD_ROOT)/%.o : %.c $(BUILD_ROOT)/%.d

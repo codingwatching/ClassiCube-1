@@ -63,20 +63,20 @@ static void*  gxm_shader_patcher_fragment_usse_addr;
 static unsigned int shader_patcher_fragment_usse_offset;
 
 
-#include "../../misc/vita/colored_f.h"
-#include "../../misc/vita/colored_v.h"
-static SceGxmProgram* gxm_colored_VP = (SceGxmProgram *)&colored_v;
-static SceGxmProgram* gxm_colored_FP = (SceGxmProgram *)&colored_f;
+#include "../../build/vita/colored_f.gxp.h"
+#include "../../build/vita/colored_v.gxp.h"
+static SceGxmProgram* gxm_colored_VP = (SceGxmProgram *)&misc_vita_colored_v_gxp;
+static SceGxmProgram* gxm_colored_FP = (SceGxmProgram *)&misc_vita_colored_f_gxp;
 
-#include "../../misc/vita/textured_f.h"
-#include "../../misc/vita/textured_v.h"
-static SceGxmProgram* gxm_textured_VP = (SceGxmProgram *)&textured_v;
-static SceGxmProgram* gxm_textured_FP = (SceGxmProgram *)&textured_f;
+#include "../../build/vita/textured_f.gxp.h"
+#include "../../build/vita/textured_v.gxp.h"
+static SceGxmProgram* gxm_textured_VP = (SceGxmProgram *)&misc_vita_textured_v_gxp;
+static SceGxmProgram* gxm_textured_FP = (SceGxmProgram *)&misc_vita_textured_f_gxp;
 
-#include "../../misc/vita/colored_alpha_f.h"
-static SceGxmProgram* gxm_colored_alpha_FP = (SceGxmProgram *)&colored_alpha_f;
-#include "../../misc/vita/textured_alpha_f.h"
-static SceGxmProgram* gxm_textured_alpha_FP = (SceGxmProgram *)&textured_alpha_f;
+#include "../../build/vita/colored_alpha_f.gxp.h"
+static SceGxmProgram* gxm_colored_alpha_FP = (SceGxmProgram *)&misc_vita_colored_alpha_f_gxp;
+#include "../../build/vita/textured_alpha_f.gxp.h"
+static SceGxmProgram* gxm_textured_alpha_FP = (SceGxmProgram *)&misc_vita_textured_alpha_f_gxp;
 
 
 typedef struct CCVertexProgram {

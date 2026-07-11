@@ -139,8 +139,6 @@
 		9AC3D4B82E12921400A38E91 /* gcm.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4412E12921400A38E91 /* gcm.c */; };
 		9AC3D4B92E12921400A38E91 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4422E12921400A38E91 /* sha1.c */; };
 		9AC3D4BA2E12921400A38E91 /* x509_minimal_full.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4432E12921400A38E91 /* x509_minimal_full.c */; };
-		9AC3D4BB2E12921400A38E91 /* md5sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4442E12921400A38E91 /* md5sha1.c */; };
-		9AC3D4BC2E12921400A38E91 /* dig_size.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4452E12921400A38E91 /* dig_size.c */; };
 		9AC3D4BD2E12921400A38E91 /* ssl_client.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4462E12921400A38E91 /* ssl_client.c */; };
 		9AC3D4BE2E12921400A38E91 /* ec_c25519_m31.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4472E12921400A38E91 /* ec_c25519_m31.c */; };
 		9AC3D4BF2E12921400A38E91 /* multihash.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4482E12921400A38E91 /* multihash.c */; };
@@ -203,7 +201,6 @@
 		9AC3D4F82E12921400A38E91 /* enc64be.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4812E12921400A38E91 /* enc64be.c */; };
 		9AC3D4F92E12921400A38E91 /* ecdsa_i31_bits.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4822E12921400A38E91 /* ecdsa_i31_bits.c */; };
 		9AC3D4FA2E12921400A38E91 /* i31_modpow2.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4832E12921400A38E91 /* i31_modpow2.c */; };
-		9AC3D4FB2E12921400A38E91 /* dig_oid.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4842E12921400A38E91 /* dig_oid.c */; };
 		9AC3D4FC2E12921400A38E91 /* ssl_engine_default_chapol.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4852E12921400A38E91 /* ssl_engine_default_chapol.c */; };
 		9AC3D4FD2E12921400A38E91 /* aes_big_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4862E12921400A38E91 /* aes_big_enc.c */; };
 		9AC3D4FE2E12921400A38E91 /* rsa_default_pkcs1_vrfy.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D4882E12921400A38E91 /* rsa_default_pkcs1_vrfy.c */; };
@@ -363,8 +360,6 @@
 		9AC3D4412E12921400A38E91 /* gcm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gcm.c; sourceTree = "<group>"; };
 		9AC3D4422E12921400A38E91 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
 		9AC3D4432E12921400A38E91 /* x509_minimal_full.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x509_minimal_full.c; sourceTree = "<group>"; };
-		9AC3D4442E12921400A38E91 /* md5sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5sha1.c; sourceTree = "<group>"; };
-		9AC3D4452E12921400A38E91 /* dig_size.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dig_size.c; sourceTree = "<group>"; };
 		9AC3D4462E12921400A38E91 /* ssl_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssl_client.c; sourceTree = "<group>"; };
 		9AC3D4472E12921400A38E91 /* ec_c25519_m31.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ec_c25519_m31.c; sourceTree = "<group>"; };
 		9AC3D4482E12921400A38E91 /* multihash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = multihash.c; sourceTree = "<group>"; };
@@ -427,7 +422,6 @@
 		9AC3D4812E12921400A38E91 /* enc64be.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = enc64be.c; sourceTree = "<group>"; };
 		9AC3D4822E12921400A38E91 /* ecdsa_i31_bits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecdsa_i31_bits.c; sourceTree = "<group>"; };
 		9AC3D4832E12921400A38E91 /* i31_modpow2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = i31_modpow2.c; sourceTree = "<group>"; };
-		9AC3D4842E12921400A38E91 /* dig_oid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dig_oid.c; sourceTree = "<group>"; };
 		9AC3D4852E12921400A38E91 /* ssl_engine_default_chapol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssl_engine_default_chapol.c; sourceTree = "<group>"; };
 		9AC3D4862E12921400A38E91 /* aes_big_enc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aes_big_enc.c; sourceTree = "<group>"; };
 		9AC3D4882E12921400A38E91 /* rsa_default_pkcs1_vrfy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rsa_default_pkcs1_vrfy.c; sourceTree = "<group>"; };
@@ -592,8 +586,6 @@
 				9AC3D48F2E12921400A38E91 /* dec32le.c */,
 				9AC3D42B2E12921400A38E91 /* dec64be.c */,
 				9AC3D4592E12921400A38E91 /* dec64le.c */,
-				9AC3D4842E12921400A38E91 /* dig_oid.c */,
-				9AC3D4452E12921400A38E91 /* dig_size.c */,
 				9AC3D4522E12921400A38E91 /* ec_all_m31.c */,
 				9AC3D4492E12921400A38E91 /* ec_c25519_i31.c */,
 				9AC3D4472E12921400A38E91 /* ec_c25519_m31.c */,
@@ -647,7 +639,6 @@
 				9AC3D4582E12921400A38E91 /* i32_div32.c */,
 				9AC3D4292E12921400A38E91 /* i62_modpow2.c */,
 				9AC3D47D2E12921400A38E91 /* md5.c */,
-				9AC3D4442E12921400A38E91 /* md5sha1.c */,
 				9AC3D4482E12921400A38E91 /* multihash.c */,
 				9AC3D4752E12921400A38E91 /* poly1305_ctmul.c */,
 				9AC3D43E2E12921400A38E91 /* poly1305_ctmulq.c */,
@@ -806,7 +797,6 @@
 				9AC3D3982E12909D00A38E91 /* IsometricDrawer.c in Sources */,
 				9AC3D4DF2E12921400A38E91 /* i31_iszero.c in Sources */,
 				9AC3D4002E12909D00A38E91 /* Camera.c in Sources */,
-				9AC3D4BB2E12921400A38E91 /* md5sha1.c in Sources */,
 				9AC3D3AD2E12909D00A38E91 /* World.c in Sources */,
 				9AC3D4FE2E12921400A38E91 /* rsa_default_pkcs1_vrfy.c in Sources */,
 				9AC3D4EC2E12921400A38E91 /* poly1305_ctmul.c in Sources */,
@@ -908,7 +898,6 @@
 				9AC3D4B82E12921400A38E91 /* gcm.c in Sources */,
 				9AC3D4F32E12921400A38E91 /* ecdsa_i31_vrfy_raw.c in Sources */,
 				9AC3D4F92E12921400A38E91 /* ecdsa_i31_bits.c in Sources */,
-				9AC3D4FB2E12921400A38E91 /* dig_oid.c in Sources */,
 				9AC3D32E2E12909C00A38E91 /* TexturePack.c in Sources */,
 				9AC3D4FA2E12921400A38E91 /* i31_modpow2.c in Sources */,
 				9AC3D4AF2E12921400A38E91 /* hmac_drbg.c in Sources */,
@@ -924,7 +913,6 @@
 				9AC3D4EA2E12921400A38E91 /* i31_sub.c in Sources */,
 				9AC3D4FD2E12921400A38E91 /* aes_big_enc.c in Sources */,
 				9AC3D3C02E12909D00A38E91 /* Generator.c in Sources */,
-				9AC3D4BC2E12921400A38E91 /* dig_size.c in Sources */,
 				9AC3D40E2E12909D00A38E91 /* Window_Terminal.c in Sources */,
 				9AC3D4A12E12921400A38E91 /* i62_modpow2.c in Sources */,
 				9AC3D4D52E12921400A38E91 /* ec_p256_m64.c in Sources */,

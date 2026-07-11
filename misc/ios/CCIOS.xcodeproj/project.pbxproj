@@ -131,8 +131,6 @@
 		9AC3D0D22E1166AB00A38E91 /* gcm.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D05B2E1166AA00A38E91 /* gcm.c */; };
 		9AC3D0D32E1166AB00A38E91 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D05C2E1166AA00A38E91 /* sha1.c */; };
 		9AC3D0D42E1166AB00A38E91 /* x509_minimal_full.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D05D2E1166AA00A38E91 /* x509_minimal_full.c */; };
-		9AC3D0D52E1166AB00A38E91 /* md5sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D05E2E1166AA00A38E91 /* md5sha1.c */; };
-		9AC3D0D62E1166AB00A38E91 /* dig_size.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D05F2E1166AA00A38E91 /* dig_size.c */; };
 		9AC3D0D72E1166AB00A38E91 /* ssl_client.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D0602E1166AA00A38E91 /* ssl_client.c */; };
 		9AC3D0D82E1166AB00A38E91 /* ec_c25519_m31.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D0612E1166AA00A38E91 /* ec_c25519_m31.c */; };
 		9AC3D0D92E1166AB00A38E91 /* multihash.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D0622E1166AA00A38E91 /* multihash.c */; };
@@ -195,7 +193,6 @@
 		9AC3D1122E1166AB00A38E91 /* enc64be.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D09B2E1166AB00A38E91 /* enc64be.c */; };
 		9AC3D1132E1166AB00A38E91 /* ecdsa_i31_bits.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D09C2E1166AB00A38E91 /* ecdsa_i31_bits.c */; };
 		9AC3D1142E1166AB00A38E91 /* i31_modpow2.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D09D2E1166AB00A38E91 /* i31_modpow2.c */; };
-		9AC3D1152E1166AB00A38E91 /* dig_oid.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D09E2E1166AB00A38E91 /* dig_oid.c */; };
 		9AC3D1162E1166AB00A38E91 /* ssl_engine_default_chapol.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D09F2E1166AB00A38E91 /* ssl_engine_default_chapol.c */; };
 		9AC3D1172E1166AB00A38E91 /* aes_big_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D0A02E1166AB00A38E91 /* aes_big_enc.c */; };
 		9AC3D1182E1166AB00A38E91 /* rsa_default_pkcs1_vrfy.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3D0A22E1166AB00A38E91 /* rsa_default_pkcs1_vrfy.c */; };
@@ -344,8 +341,6 @@
 		9AC3D05B2E1166AA00A38E91 /* gcm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gcm.c; sourceTree = "<group>"; };
 		9AC3D05C2E1166AA00A38E91 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
 		9AC3D05D2E1166AA00A38E91 /* x509_minimal_full.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x509_minimal_full.c; sourceTree = "<group>"; };
-		9AC3D05E2E1166AA00A38E91 /* md5sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5sha1.c; sourceTree = "<group>"; };
-		9AC3D05F2E1166AA00A38E91 /* dig_size.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dig_size.c; sourceTree = "<group>"; };
 		9AC3D0602E1166AA00A38E91 /* ssl_client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssl_client.c; sourceTree = "<group>"; };
 		9AC3D0612E1166AA00A38E91 /* ec_c25519_m31.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ec_c25519_m31.c; sourceTree = "<group>"; };
 		9AC3D0622E1166AA00A38E91 /* multihash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = multihash.c; sourceTree = "<group>"; };
@@ -408,7 +403,6 @@
 		9AC3D09B2E1166AB00A38E91 /* enc64be.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = enc64be.c; sourceTree = "<group>"; };
 		9AC3D09C2E1166AB00A38E91 /* ecdsa_i31_bits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecdsa_i31_bits.c; sourceTree = "<group>"; };
 		9AC3D09D2E1166AB00A38E91 /* i31_modpow2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = i31_modpow2.c; sourceTree = "<group>"; };
-		9AC3D09E2E1166AB00A38E91 /* dig_oid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dig_oid.c; sourceTree = "<group>"; };
 		9AC3D09F2E1166AB00A38E91 /* ssl_engine_default_chapol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssl_engine_default_chapol.c; sourceTree = "<group>"; };
 		9AC3D0A02E1166AB00A38E91 /* aes_big_enc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aes_big_enc.c; sourceTree = "<group>"; };
 		9AC3D0A12E1166AB00A38E91 /* inner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inner.h; sourceTree = "<group>"; };
@@ -600,8 +594,6 @@
 				9AC3D05B2E1166AA00A38E91 /* gcm.c */,
 				9AC3D05C2E1166AA00A38E91 /* sha1.c */,
 				9AC3D05D2E1166AA00A38E91 /* x509_minimal_full.c */,
-				9AC3D05E2E1166AA00A38E91 /* md5sha1.c */,
-				9AC3D05F2E1166AA00A38E91 /* dig_size.c */,
 				9AC3D0602E1166AA00A38E91 /* ssl_client.c */,
 				9AC3D0612E1166AA00A38E91 /* ec_c25519_m31.c */,
 				9AC3D0622E1166AA00A38E91 /* multihash.c */,
@@ -664,7 +656,6 @@
 				9AC3D09B2E1166AB00A38E91 /* enc64be.c */,
 				9AC3D09C2E1166AB00A38E91 /* ecdsa_i31_bits.c */,
 				9AC3D09D2E1166AB00A38E91 /* i31_modpow2.c */,
-				9AC3D09E2E1166AB00A38E91 /* dig_oid.c */,
 				9AC3D09F2E1166AB00A38E91 /* ssl_engine_default_chapol.c */,
 				9AC3D0A02E1166AB00A38E91 /* aes_big_enc.c */,
 				9AC3D0A12E1166AB00A38E91 /* inner.h */,
@@ -814,7 +805,6 @@
 				9AC3D1122E1166AB00A38E91 /* enc64be.c in Sources */,
 				9A89D58D27F802F600FF3F80 /* Options.c in Sources */,
 				9AC3D0C42E1166AB00A38E91 /* ec_c25519_m62.c in Sources */,
-				9AC3D0D62E1166AB00A38E91 /* dig_size.c in Sources */,
 				9AC3D0AE2E1166AB00A38E91 /* rsa_i62_pkcs1_vrfy.c in Sources */,
 				9A89D57927F802F600FF3F80 /* Event.c in Sources */,
 				9AC3D0D22E1166AB00A38E91 /* gcm.c in Sources */,
@@ -822,7 +812,6 @@
 				9AC3D0FF2E1166AB00A38E91 /* sha2big.c in Sources */,
 				9AC3D0EC2E1166AB00A38E91 /* ec_p256_m31.c in Sources */,
 				9A89D58127F802F600FF3F80 /* SelOutlineRenderer.c in Sources */,
-				9AC3D1152E1166AB00A38E91 /* dig_oid.c in Sources */,
 				9AC3D0DC2E1166AB00A38E91 /* ccm.c in Sources */,
 				9A89D56027F802F600FF3F80 /* _ftbitmap.c in Sources */,
 				9AC3D0DB2E1166AB00A38E91 /* i31_reduce.c in Sources */,
@@ -868,7 +857,6 @@
 				9A89D56327F802F600FF3F80 /* _autofit.c in Sources */,
 				9A89D55F27F802F600FF3F80 /* _sfnt.c in Sources */,
 				9AC3D1182E1166AB00A38E91 /* rsa_default_pkcs1_vrfy.c in Sources */,
-				9AC3D0D52E1166AB00A38E91 /* md5sha1.c in Sources */,
 				9AC3D0F32E1166AB00A38E91 /* i31_decmod.c in Sources */,
 				9A89D55527F802F600FF3F80 /* HeldBlockRenderer.c in Sources */,
 				9AC3D1222E11675E00A38E91 /* Certs.c in Sources */,
