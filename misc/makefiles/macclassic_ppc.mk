@@ -12,7 +12,7 @@ REZFLAGS=-I$(PREFIX)/RIncludes
 
 SOURCE_DIRS := src src/macclassic
 BUILD_DIR 	:= build/mac
-TARGET_ARCH := ppc
+BUILD_ARCH  := ppc
 LIBS		:= -lm
 OEXT    	:= .elf
 # performance too slow if not in release mode

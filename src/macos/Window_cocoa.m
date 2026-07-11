@@ -329,7 +329,7 @@ static void MakeContentView(void) {
 }
 
 // See misc/macOS/mac_icon_gen.cs for how to generate this file
-#include "../misc/macOS/CCIcon_mac.h"
+#include "../../misc/macOS/CCIcon_mac.h"
 
 static void ApplyIcon(void) {
 	NSImage* img;

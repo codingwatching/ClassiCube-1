@@ -80,8 +80,7 @@ $(TARGET).elf: $(OBJS)
 	$(LD) $^ $(LDFLAGS) $(LIBS) -o $@
 
 $(TARGET)-fixed.elf: $(TARGET).elf
-	cp $< $@
-	$(FIXUP) $@
+	$(FIXUP) -o $@ $<
 
 $(TARGET).prx: $(TARGET)-fixed.elf
 	$(PRXGEN) $< $@

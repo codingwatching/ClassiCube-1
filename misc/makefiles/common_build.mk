@@ -15,8 +15,8 @@ M_SOURCES	:= $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.m))
 # Autoconfigured variables
 #-----------------------------
 BUILD_ROOT := $(BUILD_DIR)
-ifdef TARGET_ARCH
-BUILD_ROOT := $(BUILD_ROOT)/$(TARGET_ARCH)
+ifdef BUILD_ARCH
+BUILD_ROOT := $(BUILD_ROOT)/$(BUILD_ARCH)
 endif
 
 C_OBJECTS	:= $(patsubst %.c,$(BUILD_ROOT)/%.o, $(C_SOURCES))
@@ -26,6 +26,8 @@ M_OBJECTS	:= $(patsubst %.m,$(BUILD_ROOT)/%.o, $(M_SOURCES))
 
 BUILD_DIRS	:= $(BUILD_ROOT) $(addprefix $(BUILD_ROOT)/, $(SOURCE_DIRS))
 OBJECTS		+= $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) $(M_OBJECTS)
+# All generated files that are cleaned up by 'clean' target
+GEN_FILES	+= $(TARGET)$(OEXT) $(OBJECTS)
 
 
 #----------------------------------------------------------------
@@ -60,7 +62,7 @@ $(BUILD_DIRS):
 
 # Cleans up all built files
 clean:
-	$(RM) $(OBJECTS)
+	$(RM) $(GEN_FILES)
 
 
 #------------------------------------------------

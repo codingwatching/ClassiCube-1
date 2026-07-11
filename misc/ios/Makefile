@@ -64,7 +64,7 @@ OBJS_64	:= $(addprefix $(BUILD_DIR_64)/, $(notdir $(C_FILES:%.c=%.o) $(M_FILES:%
 CFLAGS  := -g -Os -fno-math-errno -fvisibility=hidden -fno-common -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Wno-missing-braces -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wconditional-uninitialized -Wno-shadow -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -isysroot $(IOS_SDK_PATH) -fstrict-aliasing -miphoneos-version-min=$(IOS_MIN_VERSION) -Wno-sign-conversion -Wcomma -Wstrict-prototypes
 MFLAGS  := $(CFLAGS)
 
-LDFLAGS  := -isysroot $(IOS_SDK_PATH) -Xlinker -rpath -Xlinker @executable_path/Frameworks
+LDFLAGS  := -isysroot $(IOS_SDK_PATH) -Xlinker -rpath -Xlinker @executable_path/Frameworks -miphoneos-version-min=$(IOS_MIN_VERSION)
 LIBS 	 := -framework Foundation -framework CoreFoundation -framework CoreGraphics -framework OpenGLES -framework UIKit -framework Security -framework CoreText -framework QuartzCore -lobjc
 
 # Dependency tracking
@@ -94,11 +94,11 @@ $(BUILD_DIR_APP):
 #---------------------------------------------------------------------------------
 $(BUILD_DIR_32)/$(TARGET): $(OBJS_32)
 	export IPHONEOS_DEPLOYMENT_TARGET=$(IOS_MIN_VERSION)
-	$(LD) $^ -arch $(ARCH_32) $(LDFLAGS) $(LIBS) -miphoneos-version-min=$(IOS_MIN_VERSION) -dead_strip -o $@
+	$(LD) $^ -arch $(ARCH_32) $(LDFLAGS) $(LIBS) -dead_strip -o $@
 
 $(BUILD_DIR_64)/$(TARGET): $(OBJS_64)
 	export IPHONEOS_DEPLOYMENT_TARGET=$(IOS_MIN_VERSION)
-	$(LD) $^ -arch $(ARCH_64) $(LDFLAGS) $(LIBS) -miphoneos-version-min=$(IOS_MIN_VERSION) -dead_strip -o $@
+	$(LD) $^ -arch $(ARCH_64) $(LDFLAGS) $(LIBS) -dead_strip -o $@
 
 
 $(BUILD_DIR_APP)/$(TARGET): $(BUILD_DIR_32)/$(TARGET) $(BUILD_DIR_64)/$(TARGET)
