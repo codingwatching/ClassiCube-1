@@ -20,6 +20,9 @@ BUILD_DIR		= build/vita
 SFO_TITLE 	= ClassiCube
 SFO_TITLEID = CUBE00200
 
+PARAM_SFO    := $(BUILD_DIR)/param.sfo
+EBOOT_BIN    := eboot.bin
+
 
 #---------------------------------------------------------------------------------
 # Compilable files
@@ -72,14 +75,14 @@ clean:
 #---------------------------------------------------------------------------------
 # executable generation
 #---------------------------------------------------------------------------------
-$(TARGET).vpk: eboot.bin param.sfo
-	$(PACK_VPK) -s param.sfo -b eboot.bin -a misc/vita/sce_sys/ICON0.png=sce_sys/ICON0.png $(TARGET).vpk
+$(TARGET).vpk: $(EBOOT_BIN) $(PARAM_SFO)
+	$(PACK_VPK) -s $(PARAM_SFO) -b $(EBOOT_BIN) -a misc/vita/ICON0.png=sce_sys/ICON0.png $@
 
-eboot.bin: $(TARGET).velf
-	$(MAKE_FSELF) $(TARGET).velf eboot.bin
+$(EBOOT_BIN): $(TARGET).velf
+	$(MAKE_FSELF) $< $@
 
-param.sfo:
-	$(MKSOFEX) -s TITLE_ID="$(SFO_TITLEID)" "$(SFO_TITLE)" param.sfo
+$(PARAM_SFO):
+	$(MKSOFEX) -s TITLE_ID="$(SFO_TITLEID)" "$(SFO_TITLE)" $@
 
 $(TARGET).velf: $(TARGET).elf
 	$(VITA_STRIP) -g $<
