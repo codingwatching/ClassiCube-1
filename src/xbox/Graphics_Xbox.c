@@ -32,13 +32,13 @@ static void LoadVertexShader(int offset, uint32_t* program, int programSize) {
 }
 
 static uint32_t vs_coloured_program[] = {
-	#include "../../misc/xbox/vs_coloured.inl"
+	#include "../../build/xbox/vs_coloured.inl"
 };
 static uint32_t vs_textured_program[] = {
-	#include "../../misc/xbox/vs_textured.inl"
+	#include "../../build/xbox/vs_textured.inl"
 };
 static uint32_t vs_offset_program[] = {
-	#include "../../misc/xbox/vs_offset.inl"
+	#include "../../build/xbox/vs_offset.inl"
 };
 
 
@@ -46,7 +46,7 @@ static void LoadFragmentShader_Coloured(void) {
 	uint32_t* p;
 
 	p = pb_begin();
-	#include "../../misc/xbox/ps_coloured.inl"
+	#include "../../build/xbox/ps_coloured.inl"
 	pb_end(p);
 }
 
@@ -54,7 +54,7 @@ static void LoadFragmentShader_Textured(void) {
 	uint32_t* p;
 
 	p = pb_begin();
-	#include "../../misc/xbox/ps_textured.inl"
+	#include "../../build/xbox/ps_textured.inl"
 	pb_end(p);
 }
 

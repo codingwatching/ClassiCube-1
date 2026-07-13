@@ -1,5 +1,7 @@
 ifeq ($(strip $(NXDK_DIR)),)
-$(error "Please set NXDK_DIR in your environment")
+$(error Please set NXDK_DIR in your environment. For example:)
+$(warning export NXDK_DIR=/opt/nxdk)
+$(error Undefined NXDK_DIR (root directory))
 endif
 
 .SUFFIXES:
@@ -15,7 +17,7 @@ XBE_TITLE 	= ClassiCube
 # List of directories containing source code
 SOURCE_DIRS = src src/xbox third_party/bearssl
 # Shader objects
-SHADER_OBJS = misc/xbox/vs_coloured.inl misc/xbox/vs_textured.inl misc/xbox/vs_offset.inl misc/xbox/ps_coloured.inl misc/xbox/ps_textured.inl
+SHADER_OBJS = build/xbox/vs_coloured.inl build/xbox/vs_textured.inl build/xbox/vs_offset.inl build/xbox/ps_coloured.inl build/xbox/ps_textured.inl
 # Directory where object files are placed
 BUILD_DIR   = build/xbox
 
@@ -58,6 +60,9 @@ LDFLAGS = -stack:196608 \
 #---------------------------------------------------------------------------------
 # Tools
 #---------------------------------------------------------------------------------
+NXDK_CC = $(NXDK_DIR)/bin/nxdk-cc
+NXDK_LD = $(NXDK_DIR)/bin/nxdk-link
+
 CGC = $(NXDK_DIR)/tools/cg/linux/cgc
 # NOTE: Linux only. Would need changing for other platforms
 
@@ -82,7 +87,7 @@ $(BUILD_DIR):
 #---------------------------------------------------------------------------------
 # Executable generation
 #---------------------------------------------------------------------------------
-$(BUILD_DIR)/Graphics_Xbox.o : $(SHADER_OBJS)
+src/xbox/Graphics_Xbox.c : $(SHADER_OBJS)
 
 $(TARGET).iso: $(TARGET).xbe
 	mkdir -p $(BUILD_DIR)/cd
@@ -93,41 +98,41 @@ $(TARGET).xbe: $(TARGET).exe
 	$(CXBE) -OUT:$@ -TITLE:$(XBE_TITLE) $<
 
 $(TARGET).exe: $(OBJS)
-	nxdk-link $(NXDK_LDFLAGS) $(LDFLAGS) -out:$@ $^
+	$(NXDK_LD) $(LDFLAGS) -out:$@ $^
 
 
 #---------------------------------------------------------------------------------
 # Object generation
 #---------------------------------------------------------------------------------
 $(BUILD_DIR)/%.o: src/%.c
-	nxdk-cc $(NXDK_CFLAGS) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+	$(NXDK_CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: src/xbox/%.c
-	nxdk-cc $(NXDK_CFLAGS) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+	$(NXDK_CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: src/xbox/%.S
-	nxdk-as $(NXDK_ASFLAGS) $(ASFLAGS) $(DEPFLAGS) -c $< -o $@
+	$(NXDK_CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: third_party/bearssl/%.c
-	nxdk-cc $(NXDK_CFLAGS) $(CFLAGS) -c $< -o $@
+	$(NXDK_CC) $(CFLAGS) -c $< -o $@
 
 
 #---------------------------------------------------------------------------------
 # shader object generation
 #---------------------------------------------------------------------------------
-.PRECIOUS: vs_%.asm ps_%.asm
+.PRECIOUS: misc/xbox/vs_%.asm misc/xbox/ps_%.asm
 # prevent the .asm files from being deleted
 
-vs_%.inl: vs_%.asm
+$(BUILD_DIR)/vs_%.inl: misc/xbox/vs_%.asm
 	$(VP20COMPILER) $< > $@
 
-vs_%.asm: vs_%.cg
+misc/xbox/vs_%.asm: misc/xbox/vs_%.cg
 	$(CGC) -profile vp20 $< -o $@
 
-ps_%.inl: ps_%.asm
+$(BUILD_DIR)/ps_%.inl: misc/xbox/ps_%.asm
 	$(FP20COMPILER) $< > $@
 
-ps_%.asm: ps_%.cg
+misc/xbox/ps_%.asm: misc/xbox/ps_%.cg
 	$(CGC) -profile fp20 $< -o $@
 
 
