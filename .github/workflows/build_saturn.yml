@@ -31,7 +31,7 @@ jobs:
           
       - uses: ./.github/actions/upload_build
         with:
-          SOURCE_FILE: 'build/saturn/ClassiCube-saturn.elf'
+          SOURCE_FILE: 'ClassiCube-saturn.elf'
           DEST_NAME: 'ClassiCube-saturn.elf'
           
       - uses: ./.github/actions/upload_build
