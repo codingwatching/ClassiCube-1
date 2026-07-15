@@ -95,7 +95,7 @@ Copyright 2014-2025 ClassiCube | Licensed under BSD-3
 	#define CC_ALIGNED(x) __attribute__((aligned(x)))
 #endif
 
-/* Unrecognised compiler, so just go with some sensible default typdefs */
+/* Unrecognised compiler, so just guess some sensible default typedefs */
 /* Don't use <stdint.h>, as good chance such a compiler doesn't support it */
 #ifndef CC_HAS_TYPES
 typedef signed char  cc_int8;

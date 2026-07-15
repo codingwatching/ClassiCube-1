@@ -25,7 +25,7 @@ jobs:
 
       - name: Compile Xbox build
         run: |
-          export NXDK_DIR=/usr/src/nxdk
+          eval $(/usr/src/nxdk/bin/activate -s)
           make xbox
           
           
