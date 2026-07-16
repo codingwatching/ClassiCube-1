@@ -37,12 +37,12 @@ jobs:
           wget https://github.com/ClassiCube/rpi-compiling-stuff/raw/main/linux32.zip
           unzip linux32.zip
 
-      - name: Compile 32 bit Linux build (OpenGL 1)
+      - name: Compile 32 bit Linux builds
         shell: bash
         run: |
           LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
 
-          COMMON_CFLAGS="-m32 -fno-stack-protector -fno-pie -fcf-protection=none -U_FORTIFY_SOURCE $LATEST_FLAG"
+          COMMON_CFLAGS="-m32 -fno-stack-protector -fno-pie -fcf-protection=none -U_FORTIFY_SOURCE -DFORCE_OLD_CLOCKGETTIME_X86 $LATEST_FLAG"
           COMMON_LDFLAGS="-m32 -s -no-pie -L ./lib -Wl,--unresolved-symbols=ignore-in-shared-libs"
 
           make linux RELEASE=1 TARGET=cc-nix32-gl1 \
