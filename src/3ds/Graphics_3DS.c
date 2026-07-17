@@ -604,8 +604,8 @@ void Gfx_EndFrame(void) {
 	CmdBuf_Reset();
 }
 
-void Gfx_OnWindowResize(void) {
-	Gfx_SetViewport(0, 0, Game.Width, Game.Height);
+void Gfx_OnWindowResize(int width, int height) {
+	Gfx_SetViewport(0, 0, width, height);
 }
 
 void Gfx_SetViewport(int x, int y, int w, int h) {

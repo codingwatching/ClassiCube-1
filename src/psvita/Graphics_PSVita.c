@@ -892,7 +892,7 @@ void Gfx_EndFrame(void) {
 	Gfx_NextFramebuffer();
 }
 
-void Gfx_OnWindowResize(void) { }
+void Gfx_OnWindowResize(int width, int height) { }
 
 void Gfx_SetViewport(int x, int y, int w, int h) { }
 void Gfx_SetScissor (int x, int y, int w, int h) { }

@@ -468,9 +468,9 @@ void Gfx_EndFrame(void) {
 	SetRenderTarget(cur_fb);
 }
 
-void Gfx_OnWindowResize(void) {
-	Gfx_SetViewport(0, 0, Game.Width, Game.Height);
-	Gfx_SetScissor (0, 0, Game.Width, Game.Height);
+void Gfx_OnWindowResize(int width, int height) {
+	Gfx_SetViewport(0, 0, width, height);
+	Gfx_SetScissor (0, 0, width, height);
 }
 
 void Gfx_SetViewport(int x, int y, int w, int h) {

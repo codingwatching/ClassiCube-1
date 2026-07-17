@@ -479,9 +479,9 @@ void Gfx_CalcPerspectiveMatrix(struct Matrix* matrix, float fov, float aspect, f
 	matrix->row4.w =  0.0f;*/
 }
 
-void Gfx_OnWindowResize(void) {
-	Gfx_SetScissor( 0, 0, Game.Width, Game.Height);
-	Gfx_SetViewport(0, 0, Game.Width, Game.Height);
+void Gfx_OnWindowResize(int width, int height) {
+	Gfx_SetScissor( 0, 0, width, height);
+	Gfx_SetViewport(0, 0, width, height);
 }
 
 //static struct Vec4 vp_scale  = { 320, -240, 8388608, 1 };
