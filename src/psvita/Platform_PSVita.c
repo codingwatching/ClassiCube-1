@@ -1,6 +1,7 @@
 #define CC_XTEA_ENCRYPTION
 #define CC_NO_UPDATER
 #define CC_NO_DYNLIB
+#define CC_NO_CRASHHANDLER
 #define DEFAULT_COMMANDLINE_FUNC
 
 #include "../Stream.h"
@@ -84,16 +85,6 @@ cc_uint64 Stopwatch_Measure(void) {
 	struct SceKernelTimeval cur;
 	sceKernelLibcGettimeofday(&cur, NULL);
 	return (cc_uint64)cur.sec * US_PER_SEC + cur.usec;
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

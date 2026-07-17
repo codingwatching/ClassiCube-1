@@ -189,6 +189,14 @@ cc_uint64 Stopwatch_ElapsedMicroseconds(cc_uint64 beg, cc_uint64 end) {
 	return (end - beg) / 1000;
 }
 #else
+/* Force usage of old clock_gettime symbol so it works on really old linux distributions */
+#ifdef FORCE_OLD_CLOCKGETTIME_X86
+__asm__(".symver clock_gettime, clock_gettime@GLIBC_2.2");
+#endif
+#ifdef FORCE_OLD_CLOCKGETTIME_X64
+__asm__(".symver clock_gettime, clock_gettime@GLIBC_2.2.5");
+#endif
+
 /* clock_gettime is optional, see http://pubs.opengroup.org/onlinepubs/009696899/functions/clock_getres.html */
 /* "... These functions are part of the Timers option and need not be available on all implementations..." */
 cc_uint64 Stopwatch_Measure(void) {

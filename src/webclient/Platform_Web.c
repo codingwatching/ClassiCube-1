@@ -12,6 +12,8 @@
 #include <sys/time.h>
 #include <emscripten.h>
 
+#define CC_NO_CRASHHANDLER
+
 #define O_RDONLY 0x000
 #define O_WRONLY 0x001
 #define O_RDWR   0x002
@@ -69,16 +71,6 @@ TimeMS DateTime_CurrentUTC(void) {
 extern void interop_GetLocalTime(struct cc_datetime* t);
 void DateTime_CurrentLocal(struct cc_datetime* t) {
 	interop_GetLocalTime(t);
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

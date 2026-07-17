@@ -1,6 +1,7 @@
 #define CC_XTEA_ENCRYPTION
 #define CC_NO_UPDATER
 #define CC_NO_DYNLIB
+#define CC_NO_CRASHHANDLER
 #define DEFAULT_COMMANDLINE_FUNC
 
 #include "../Stream.h"
@@ -121,16 +122,6 @@ cc_uint64 Stopwatch_Measure(void) {
 cc_uint64 Stopwatch_ElapsedMicroseconds(cc_uint64 beg, cc_uint64 end) {
 	if (end < beg) return 0;
 	return OSTicksToMicroseconds(end - beg);
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

@@ -272,6 +272,10 @@ void CrashHandler_Install(void) {
 	setExceptionHandler(CrashHandler);
 }
 
+void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
+	// TODO Register dumping not implemented
+}
+
 // __attribute__ ((target("arm"))) 
 void Process_Abort2(cc_result result, const char* raw_msg) {
 	crash_msg = raw_msg;

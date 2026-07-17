@@ -139,10 +139,3 @@ void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
 #endif
 }
 
-/* Force usage of old clock_gettime symbol so it works on really old linux distributions */
-#ifdef FORCE_OLD_CLOCKGETTIME_X86
-__asm__(".symver clock_gettime, clock_gettime@GLIBC_2.2");
-#endif
-#ifdef FORCE_OLD_CLOCKGETTIME_X64
-__asm__(".symver clock_gettime, clock_gettime@GLIBC_2.2.5");
-#endif

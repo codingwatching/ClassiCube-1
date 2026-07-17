@@ -3,6 +3,7 @@
 #define CC_NO_DYNLIB
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
+#define CC_NO_CRASHHANDLER
 
 #include "../Stream.h"
 #include "../ExtMath.h"
@@ -95,16 +96,6 @@ TimeMS DateTime_CurrentUTC(void) {
 
 void DateTime_CurrentLocal(struct cc_datetime* t) {
 	Mem_Set(t, 0, sizeof(struct cc_datetime));
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

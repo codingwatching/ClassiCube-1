@@ -206,6 +206,10 @@ void CrashHandler_Install(void) {
 	SetUnhandledExceptionFilter(UnhandledFilter);
 }
 
+void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
+	// TODO implement Register dumping
+}
+
 void Process_Abort2(cc_result result, const char* raw_msg) {
 	Logger_DoAbort(result, raw_msg, NULL);
 }

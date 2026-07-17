@@ -224,6 +224,9 @@ void CrashHandler_Install(void) {
 	SetUnhandledExceptionFilter(UnhandledFilter);
 }
 
+// TODO move into Platform file
+#include "win32/Plat_Win32.inc"
+
 #if __clang__
 void __attribute__((optnone)) Process_Abort2(cc_result result, const char* raw_msg) {
 #elif __GNUC__

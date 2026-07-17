@@ -2,6 +2,7 @@
 #define CC_NO_DYNLIB
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
+#define CC_NO_CRASHHANDLER
 
 #define CC_XTEA_ENCRYPTION
 #include "../Stream.h"
@@ -84,16 +85,6 @@ void DateTime_CurrentLocal(struct cc_datetime* t) {
 	t->hour   = curTime.hour;
 	t->minute = curTime.min;
 	t->second = curTime.sec;
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

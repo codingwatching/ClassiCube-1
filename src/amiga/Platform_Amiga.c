@@ -2,6 +2,7 @@
 #define CC_NO_DYNLIB
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
+#define CC_NO_CRASHHANDLER
 #define OVERRIDE_MEM_FUNCTIONS
 
 #include "../Stream.h"
@@ -97,16 +98,6 @@ TimeMS DateTime_CurrentUTC(void) {
 
 void DateTime_CurrentLocal(struct cc_datetime* t) {
 	// TODO
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

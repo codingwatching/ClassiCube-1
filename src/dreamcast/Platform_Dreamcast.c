@@ -218,6 +218,10 @@ void CrashHandler_Install(void) {
 	irq_set_handler(EXC_UNHANDLED_EXC, HandleCrash, NULL);
 }
 
+void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
+	// TODO Register dumping not implemented
+}
+
 void Process_Abort2(cc_result result, const char* raw_msg) {
 	Logger_DoAbort(result, raw_msg, NULL);
 }

@@ -3,6 +3,7 @@
 #define CC_NO_DYNLIB
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
+#define CC_NO_CRASHHANDLER
 
 #include "../Stream.h"
 #include "../ExtMath.h"
@@ -133,16 +134,6 @@ cc_uint64 Stopwatch_ElapsedMicroseconds(cc_uint64 beg, cc_uint64 end) {
 
 	// TODO still wrong?? PAL detection ???
 	return (delta * US_PER_SEC) / (NTSC_320_CLOCK / 1024);
-}
-
-
-/*########################################################################################################################*
-*-------------------------------------------------------Crash handling----------------------------------------------------*
-*#########################################################################################################################*/
-void CrashHandler_Install(void) { }
-
-void Process_Abort2(cc_result result, const char* raw_msg) {
-	Logger_DoAbort(result, raw_msg, NULL);
 }
 
 

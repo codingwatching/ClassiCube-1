@@ -134,6 +134,10 @@ void CrashHandler_Install(void) {
 	// SetUnhandledExceptionFilter not available on Windows CE
 }
 
+void CrashHandler_DumpRegisters(void* ctx, cc_string* str) {
+	// TODO Register dumping not implemented
+}
+
 void Process_Abort2(cc_result result, const char* raw_msg) {
 	WCHAR wbuf[512];
     WCHAR fbuf[512];
