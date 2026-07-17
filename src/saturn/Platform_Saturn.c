@@ -3,6 +3,7 @@
 #define CC_NO_DYNLIB
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
+#define CC_NO_FILESYSTEM
 #define CC_NO_CRASHHANDLER
 
 #include "../Stream.h"
@@ -26,11 +27,6 @@ void* calloc(size_t num, size_t size) {
 	if (ptr) memset(ptr, 0, num * size);
 	return ptr;
 }
-
-const cc_result ReturnCode_FileShareViolation = 1000000000; // not used
-const cc_result ReturnCode_FileNotFound       = 99999;
-const cc_result ReturnCode_PathNotFound       = 99999;
-const cc_result ReturnCode_DirectoryExists    = 99999;
 
 const char* Platform_AppNameSuffix  = " Saturn";
 cc_bool Platform_ReadonlyFilesystem = true;
@@ -134,69 +130,6 @@ cc_uint64 Stopwatch_ElapsedMicroseconds(cc_uint64 beg, cc_uint64 end) {
 
 	// TODO still wrong?? PAL detection ???
 	return (delta * US_PER_SEC) / (NTSC_320_CLOCK / 1024);
-}
-
-
-/*########################################################################################################################*
-*-----------------------------------------------------Directory/File------------------------------------------------------*
-*#########################################################################################################################*/
-void Platform_EncodePath(cc_filepath* dst, const cc_string* path) {
-	int len = String_CopyToRaw(dst->buffer, sizeof(dst->buffer) - 1, path);
-	dst->buffer[len] = '\0'; // Always null terminate just in case
-}
-
-void Platform_DecodePath(cc_string* dst, const cc_filepath* path) {
-	String_AppendConst(dst, path->buffer);
-}
-
-void Directory_GetCachePath(cc_string* path) { }
-
-cc_result Directory_Create2(const cc_filepath* path) {
-	return ReturnCode_DirectoryExists;
-}
-
-int File_Exists(const cc_filepath* path) {
-	return false;
-}
-
-cc_result Directory_Enum(const cc_string* dirPath, void* obj, Directory_EnumCallback callback) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Open(cc_file* file, const cc_filepath* path) {
-	return ReturnCode_FileNotFound;
-}
-
-cc_result File_Create(cc_file* file, const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_OpenOrCreate(cc_file* file, const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Read(cc_file file, void* data, cc_uint32 count, cc_uint32* bytesRead) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Write(cc_file file, const void* data, cc_uint32 count, cc_uint32* bytesWrote) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Close(cc_file file) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Seek(cc_file file, int offset, int seekType) {	
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Position(cc_file file, cc_uint32* pos) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Length(cc_file file, cc_uint32* len) {
-	return ERR_NOT_SUPPORTED;
 }
 
 

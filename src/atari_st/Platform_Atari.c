@@ -3,6 +3,7 @@
 #define CC_NO_SOCKETS
 #define CC_NO_THREADING
 #define CC_NO_CRASHHANDLER
+#define CC_NO_FILESYSTEM
 #define OVERRIDE_MEM_FUNCTIONS
 
 #include "../Stream.h"
@@ -23,11 +24,6 @@
 typedef volatile uint8_t   vu8;
 typedef volatile uint16_t vu16;
 typedef volatile uint32_t vu32;
-
-const cc_result ReturnCode_FileShareViolation = 1000000000; // not used
-const cc_result ReturnCode_FileNotFound     = -1;
-const cc_result ReturnCode_PathNotFound     = -1;
-const cc_result ReturnCode_DirectoryExists  = -1;
 
 const char* Platform_AppNameSuffix = " Atari";
 cc_bool Platform_ReadonlyFilesystem;
