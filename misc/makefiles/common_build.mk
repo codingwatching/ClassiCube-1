@@ -82,7 +82,7 @@ $(BUILD_ROOT)/%.o : %.cpp $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
 $(BUILD_ROOT)/%.o : %.m $(BUILD_ROOT)/%.d
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -c $< -o $@
-
+	
 include $(wildcard $(DEPFILES))
 
 else
@@ -95,4 +95,5 @@ $(BUILD_ROOT)/%.o : %.cpp
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
 $(BUILD_ROOT)/%.o : %.m
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+
 endif

@@ -24,9 +24,12 @@ jobs:
           apk add curl curl-dev
 
       - name: Compile Xbox build
+        shell: bash
         run: |
           eval $(/usr/src/nxdk/bin/activate -s)
-          make xbox
+
+          LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
+          make xbox EXTRA_CFLAGS="$LATEST_FLAG"
           
           
       - uses: ./.github/actions/upload_build

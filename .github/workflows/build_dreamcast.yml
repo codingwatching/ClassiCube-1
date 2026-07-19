@@ -25,7 +25,9 @@ jobs:
         run: |
           export PATH=/opt/toolchains/dc/kos/utils/:$PATH
           source /opt/toolchains/dc/kos/environ.sh
-          make dreamcast
+
+          LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
+          make dreamcast EXTRA_CFLAGS="$LATEST_FLAG"
           
           
       - uses: ./.github/actions/upload_build

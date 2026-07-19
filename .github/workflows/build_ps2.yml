@@ -24,8 +24,10 @@ jobs:
           apk add make mpc1 curl
 
       - name: Compile PS2 build
+        shell: bash
         run: |
-          make ps2
+          LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
+          make ps2 EXTRA_CFLAGS="$LATEST_FLAG"
           
           
       - uses: ./.github/actions/upload_build

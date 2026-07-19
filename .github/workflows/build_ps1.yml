@@ -25,9 +25,12 @@ jobs:
           apt-get install -y curl
 
       - name: Compile PS1 build
+        shell: bash
         run: |
           export PSN00BSDK_ROOT=/usr/local/psnoob
-          make ps1
+
+          LATEST_FLAG=-DCC_COMMIT_SHA=\\\"${GITHUB_SHA::9}\\\"
+          make ps1 EXTRA_CFLAGS="$LATEST_FLAG"
 
 
       - uses: ./.github/actions/upload_build
