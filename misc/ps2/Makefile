@@ -34,9 +34,10 @@ DEPFILES := $(OBJS:%.o=%.d)
 #---------------------------------------------------------------------------------
 # Code generation
 #---------------------------------------------------------------------------------
-IOP_MODS := DEV9_irx.o NETMAN_irx.o SMAP_irx.o USBD_irx.o BDM_irx.o BDMFS_FATFS_irx.o USBMASS_BD_irx.o USBHDFSD_irx.o USBMOUSE_irx.o USBKBD_irx.o
+IOP_BINS := DEV9_irx.o NETMAN_irx.o SMAP_irx.o USBD_irx.o BDM_irx.o BDMFS_FATFS_irx.o USBMASS_BD_irx.o USBHDFSD_irx.o USBMOUSE_irx.o USBKBD_irx.o
+IOP_MODS := $(patsubst %.o, $(BUILD_DIR)/%.o, $(IOP_BINS))
 
-EE_OBJS = $(OBJS) $(patsubst %.o, $(BUILD_DIR)/%.o, $(IOP_MODS))
+EE_OBJS = $(OBJS) $(IOP_MODS)
 EE_LIBS = -lpatches -lpad -ldma -lgraph -lc -lps2ip -lnetman -lmc -lmouse -lkbd
 
 EE_INCS 	:= -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include

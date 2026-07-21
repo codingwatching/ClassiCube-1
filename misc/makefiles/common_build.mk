@@ -96,4 +96,8 @@ $(BUILD_ROOT)/%.o : %.cpp
 $(BUILD_ROOT)/%.o : %.m
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
 
+# Assume worst case scenario and recompile everything if a .h changes
+H_FILES := $(foreach dir,$(SOURCE_DIRS),$(wildcard $(dir)/*.h))
+$(OBJECTS) : $(H_FILES)
+
 endif

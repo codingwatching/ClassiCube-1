@@ -35,7 +35,7 @@ jobs:
 
       - uses: ./.github/actions/upload_build
         with:
-          SOURCE_FILE: 'build/ps1/ClassiCube-ps1.elf'
+          SOURCE_FILE: 'ClassiCube-ps1.elf'
           DEST_NAME: 'ClassiCube-PS1.elf'
 
       - uses: ./.github/actions/upload_build

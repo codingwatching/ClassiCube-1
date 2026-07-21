@@ -114,69 +114,6 @@ void DateTime_CurrentLocal(struct cc_datetime* t) {
 
 
 /*########################################################################################################################*
-*-----------------------------------------------------Directory/File------------------------------------------------------*
-*#########################################################################################################################*/
-void Platform_EncodePath(cc_filepath* dst, const cc_string* path) {
-	int len = String_CopyToRaw(dst->buffer, sizeof(dst->buffer) - 1, path);
-	dst->buffer[len] = '\0'; // Always null terminate just in case
-}
-
-void Platform_DecodePath(cc_string* dst, const cc_filepath* path) {
-	String_AppendConst(dst, path->buffer);
-}
-
-void Directory_GetCachePath(cc_string* path) { }
-
-cc_result Directory_Create2(const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-int File_Exists(const cc_filepath* path) {
-	return false;
-}
-
-cc_result Directory_Enum(const cc_string* dirPath, void* obj, Directory_EnumCallback callback) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Open(cc_file* file, const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Create(cc_file* file, const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_OpenOrCreate(cc_file* file, const cc_filepath* path) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Read(cc_file file, void* data, cc_uint32 count, cc_uint32* bytesRead) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Write(cc_file file, const void* data, cc_uint32 count, cc_uint32* bytesWrote) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Close(cc_file file) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Seek(cc_file file, int offset, int seekType) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Position(cc_file file, cc_uint32* pos) {
-	return ERR_NOT_SUPPORTED;
-}
-
-cc_result File_Length(cc_file file, cc_uint32* len) {
-	return ERR_NOT_SUPPORTED;
-}
-
-
-/*########################################################################################################################*
 *--------------------------------------------------------Threading--------------------------------------------------------*
 *#########################################################################################################################*/
 // !!! NOTE: PSP uses cooperative multithreading (not preemptive multithreading) !!!
