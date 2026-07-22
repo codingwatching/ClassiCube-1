@@ -22,6 +22,10 @@ jobs:
       image: ghcr.io/enlyze/windows-ce-build-environment-i386:main-64dda99
     steps:
       - uses: actions/checkout@v5
+      - name: Install prerequisites
+        run: |
+          apt install -y curl
+
       - name: Compile i386 WinCE builds
         shell: bash
         run: |
@@ -51,6 +55,10 @@ jobs:
       image: ghcr.io/enlyze/windows-ce-build-environment-arm:main-64dda99
     steps:
       - uses: actions/checkout@v5
+      - name: Install prerequisites
+        run: |
+          apt install -y curl
+
       - name: Compile ARM WinCE builds
         shell: bash
         run: |

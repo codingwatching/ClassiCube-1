@@ -35,8 +35,7 @@ cc_uint8 Platform_Flags = PLAT_FLAG_SINGLE_PROCESS;
 
 // Current directory management for Windows CE
 static WCHAR current_directory[MAX_PATH] = L"\\";
-static cc_string Platform_NextArg(STRING_REF cc_string* args);
-static CRITICAL_SECTION dir_lock;
+
 
 /*########################################################################################################################*
 *-----------------------------------------------------Main entrypoint-----------------------------------------------------*
@@ -188,46 +187,26 @@ static void NormalizePath(WCHAR* path) {
 	*dst = L'\0';
 }
 
-static void SetCurrentDirectoryImpl(const WCHAR* path) {
-	EnterCriticalSection(&dir_lock);
-	
-	if (path[0] == L'\\') {
-		wcscpy(current_directory, path);
+static void MakeAbsolutePath(const WCHAR* src_path, WCHAR* absolute_path, DWORD size) {
+	if (src_path[0] == L'\\') {
+		wcsncpy(absolute_path, src_path, size - 1);
 	} else {
-		wcscat(current_directory, L"\\");
-		wcscat(current_directory, path);
-	}
-	
-	NormalizePath(current_directory);
-	LeaveCriticalSection(&dir_lock);
-}
+		wcsncpy(absolute_path, current_directory, size - 1);
+		absolute_path[size - 1] = L'\0';
 
-static void GetCurrentDirectoryImpl(WCHAR* buffer, DWORD size) {
-	EnterCriticalSection(&dir_lock);
-	wcsncpy(buffer, current_directory, size - 1);
-	buffer[size - 1] = L'\0';
-	LeaveCriticalSection(&dir_lock);
-}
-
-static void MakeAbsolutePath(const WCHAR* relative_path, WCHAR* absolute_path, DWORD size) {
-	if (relative_path[0] == L'\\') {
-		wcsncpy(absolute_path, relative_path, size - 1);
-	} else {
-		GetCurrentDirectoryImpl(absolute_path, size);
-		if (wcslen(absolute_path) + wcslen(relative_path) + 2 < size) {
+		if (wcslen(absolute_path) + wcslen(src_path) + 2 < size) {
 			wcscat(absolute_path, L"\\");
-			wcscat(absolute_path, relative_path);
+			wcscat(absolute_path, src_path);
 		}
 	}
 	absolute_path[size - 1] = L'\0';
 	NormalizePath(absolute_path);
 }
+
 /*########################################################################################################################*
 *-----------------------------------------------------Directory/File------------------------------------------------------*
 *#########################################################################################################################*/
-void Directory_GetCachePath(cc_string* path) {
-	String_AppendConst(path, "\\cache");
-}
+void Directory_GetCachePath(cc_string* path) { }
 
 void Platform_EncodePath(cc_filepath* dst, const cc_string* src) {
 	Platform_EncodeString(dst, src);
@@ -459,8 +438,6 @@ void Platform_LoadSysFonts(void) {
 /*########################################################################################################################*
 *---------------------------------------------------------Socket----------------------------------------------------------*
 *#########################################################################################################################*/
-static char sockaddr_size_check[sizeof(SOCKADDR_STORAGE) < CC_SOCKETADDR_MAXSIZE ? 1 : -1];
-
 cc_bool SockAddr_ToString(const cc_sockaddr* addr, cc_string* dst) {
 	SOCKADDR_IN* addr4 = (SOCKADDR_IN*)addr->data;
 
@@ -616,6 +593,7 @@ cc_result Updater_GetBuildTime(cc_uint64* timestamp) { return ERR_NOT_SUPPORTED;
 cc_result Updater_MarkExecutable(void) { return 0; }
 cc_result Updater_SetNewBuildTime(cc_uint64 timestamp) { return ERR_NOT_SUPPORTED; }
 
+
 /*########################################################################################################################*
 *-------------------------------------------------------Dynamic lib-------------------------------------------------------*
 *#########################################################################################################################*/
@@ -644,6 +622,7 @@ void* DynamicLib_Get2(void* lib, const char* name) {
 cc_bool DynamicLib_DescribeError(cc_string* dst) {
 	cc_result res = dynamicErr;
 	dynamicErr = 0;
+
 	Platform_DescribeError(res, dst);
 	String_Format1(dst, " (error %e)", &res);
 	return true;
@@ -732,26 +711,6 @@ cc_result Platform_GetEntropy(void* data, int len) {
 /*########################################################################################################################*
 *-----------------------------------------------------Configuration-------------------------------------------------------*
 *#########################################################################################################################*/
-int Platform_GetCommandLineArgs(int argc, STRING_REF char** argv, cc_string* args) {
-	LPWSTR cmdLine = GetCommandLineW();
-	char cmdLineUtf8[1024];
-	cc_string cmdArgs;
-	int i;
-	
-	if (gameHasArgs) return GetGameArgs(args);
-	
-	WideCharToMultiByte(CP_UTF8, 0, cmdLine, -1, cmdLineUtf8, 1024, NULL, NULL);
-	cmdArgs = String_FromReadonly(cmdLineUtf8);
-	
-	Platform_NextArg(&cmdArgs);
-	
-	for (i = 0; i < GAME_MAX_CMDARGS; i++) {
-		args[i] = Platform_NextArg(&cmdArgs);
-		if (!args[i].length) break;
-	}
-	return i;
-}
-
 static cc_string Platform_NextArg(STRING_REF cc_string* args) {
 	cc_string arg;
 	int end;
@@ -779,6 +738,26 @@ static cc_string Platform_NextArg(STRING_REF cc_string* args) {
 	return arg;
 }
 
+int Platform_GetCommandLineArgs(int argc, STRING_REF char** argv, cc_string* args) {
+	LPWSTR cmdLine = GetCommandLineW();
+	char cmdLineUtf8[1024];
+	cc_string cmdArgs;
+	int i;
+	
+	if (gameHasArgs) return GetGameArgs(args);
+	
+	WideCharToMultiByte(CP_UTF8, 0, cmdLine, -1, cmdLineUtf8, 1024, NULL, NULL);
+	cmdArgs = String_FromReadonly(cmdLineUtf8);
+	
+	Platform_NextArg(&cmdArgs);
+	
+	for (i = 0; i < GAME_MAX_CMDARGS; i++) {
+		args[i] = Platform_NextArg(&cmdArgs);
+		if (!args[i].length) break;
+	}
+	return i;
+}
+
 cc_result Platform_SetDefaultCurrentDirectory(int argc, char** argv) {
 	WCHAR module_path[MAX_PATH];
 	WCHAR* last_slash;
@@ -786,16 +765,16 @@ cc_result Platform_SetDefaultCurrentDirectory(int argc, char** argv) {
 	
 	len = GetModuleFileNameW(NULL, module_path, MAX_PATH);
 	if (len == 0) {
-		SetCurrentDirectoryImpl(L"\\");
+		wcscpy(current_directory, L"\\");
 		return 0;
 	}
 	
 	last_slash = wcsrchr(module_path, L'\\');
 	if (last_slash) {
 		*last_slash = L'\0';
-		SetCurrentDirectoryImpl(module_path);
+		wcscpy(current_directory, module_path);
 	} else {
-		SetCurrentDirectoryImpl(L"\\");
+		wcscpy(current_directory, L"\\");
 	}
 	
 	return 0;
