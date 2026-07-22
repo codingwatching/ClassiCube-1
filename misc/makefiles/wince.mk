@@ -3,13 +3,22 @@
 #-----------------------------
 SOURCE_DIRS := src src/wince third_party/bearssl
 BUILD_DIR	:= build/wince
+WINCE_ARCH	?= arm
 
-CFLAGS	:= -march=armv5te -DUNICODE -D_WIN32_WCE -std=gnu99 -fno-ident
+CFLAGS	:= -DUNICODE -D_WIN32_WCE -std=gnu99 -fno-ident
 LDFLAGS	:=
 LIBS 	:= -lcoredll -lws2
 include misc/makefiles/common_config.mk
 
+ifeq ($(WINCE_ARCH),arm)
+	CC      := arm-mingw32ce-gcc
+	CFLAGS	:= $(CFLAGS) -march=armv5te
+else ifeq  ($(WINCE_ARCH),i386)
+	CC      := i386-mingw32ce-gcc
+else
+	$(error "Unknown arch to compile WinCE build for")
+endif
 
-CC      := arm-mingw32ce-gcc
+
 OEXT    := .exe
 include misc/makefiles/common_build.mk

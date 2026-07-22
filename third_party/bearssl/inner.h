@@ -40,7 +40,8 @@
  
 /* The x86 intrinsics seem to be incomplete compared to what aes_x86ni expects when compiling with NXDK */
 /* Also disable when compiling the legacy windows 9x build */
-#if defined NXDK || defined CC_BUILD_NOSTDLIB
+/* Also disable when compiling for Windows CE */
+#if defined NXDK || defined CC_BUILD_NOSTDLIB || defined _WIN32_WCE
 	#undef BR_ENABLE_INTRINSICS
 	#define BR_AES_X86NI 0
 	#define BR_ENABLE_INTRINSICS 0
